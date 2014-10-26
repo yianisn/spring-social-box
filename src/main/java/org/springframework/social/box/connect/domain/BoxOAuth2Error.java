@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.box.api;
-
-import org.springframework.social.ApiBinding;
+package org.springframework.social.box.connect.domain;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
+public class BoxOAuth2Error {
+    private String error;
+    private String errorDescription;
 
+    public String getError() {
+        return error;
+    }
+    public String getErrorDescription() {
+        return errorDescription;
+    }
 }

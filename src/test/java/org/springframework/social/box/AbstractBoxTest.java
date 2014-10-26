@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.box.api;
+package org.springframework.social.box;
 
-import org.springframework.social.ApiBinding;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
+public class AbstractBoxTest {
+
+    protected Resource jsonResource(String filename) {
+        return new ClassPathResource(filename + ".json", getClass());
+    }
 
 }

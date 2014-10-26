@@ -19,6 +19,7 @@ import org.springframework.social.box.api.Box;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 
 /**
+ * This is the central class for interacting with box.
  *
  * @author Ioannis Nikolaou
  */

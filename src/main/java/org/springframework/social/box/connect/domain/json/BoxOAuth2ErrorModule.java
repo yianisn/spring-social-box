@@ -13,16 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.box.api;
+package org.springframework.social.box.connect.domain.json;
 
-import org.springframework.social.ApiBinding;
+import org.springframework.social.box.connect.domain.BoxOAuth2Error;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
+public class BoxOAuth2ErrorModule extends SimpleModule {
+
+    private static final long serialVersionUID = 1L;
+
+    public BoxOAuth2ErrorModule() {
+        super("BoxOAuth2Module");
+    }
+
+    @Override
+    public void setupModule(SetupContext context) {
+        context.setMixInAnnotations(BoxOAuth2Error.class, BoxOAuth2ErrorMixin.class);
+    }
 
 }

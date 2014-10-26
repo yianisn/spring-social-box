@@ -21,7 +21,7 @@ import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 
 /**
- *
+ * box ApiAdapter implementation.
  * @author Ioannis Nikolaou
  */
 public class BoxAdapter implements ApiAdapter<Box>{

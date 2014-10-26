@@ -21,13 +21,10 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
 
 /**
- *
+ * box ServiceProvider implementation.
  * @author Ioannis Nikolaou
  */
 public class BoxServiceProvider extends AbstractOAuth2ServiceProvider<Box>{
-
-    private static final String BOX_AUTHORIZE_URL = "https://app.box.com/api/oauth2/authorize";
-    private static final String BOX_ACCESS_TOKEN_URL = "https://app.box.com/api/oauth2/token";
 
     /**
      * Creates a BoxServiceProvider for the given client ID and secret.
@@ -35,8 +32,7 @@ public class BoxServiceProvider extends AbstractOAuth2ServiceProvider<Box>{
      * @param appSecret The application's client_secret assigned by box
      */
     public BoxServiceProvider(String clientId, String clientSecret) {
-        super(new OAuth2Template(clientId, clientSecret, BOX_AUTHORIZE_URL, BOX_ACCESS_TOKEN_URL));
-        ((OAuth2Template)getOAuthOperations()).setUseParametersForClientAuthentication(true);
+        super(new BoxOAuth2Template(clientId, clientSecret));
     }
 
     @Override

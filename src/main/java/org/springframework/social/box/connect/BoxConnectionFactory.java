@@ -19,7 +19,7 @@ import org.springframework.social.box.api.Box;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**
- *
+ * box ConnectionFactory implementation.
  * @author Ioannis Nikolaou
  */
 public class BoxConnectionFactory extends OAuth2ConnectionFactory<Box>{

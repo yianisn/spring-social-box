@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.box.api;
+package org.springframework.social.box.connect.domain.json;
 
-import org.springframework.social.ApiBinding;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
-
+public class BoxOAuth2ErrorMixin {
+    @JsonProperty("error")
+    private String error;
+    @JsonProperty("error_description")
+    private String errorDescription;
 }
