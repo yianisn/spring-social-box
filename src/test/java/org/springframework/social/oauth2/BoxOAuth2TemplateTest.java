@@ -94,6 +94,24 @@ public class BoxOAuth2TemplateTest extends AbstractBoxTest{
     }
 
     @Test
+    public void invalidGrantInExtendedErrorObject() {
+        final String boxJsonError =
+                "{\"error\":\"invalid_grant\", "
+              + "\"error_description\":\"box grant error description\","
+              + "\"additional\":\"box data\"}";
+        mockRestServiceServer.expect(requestTo("https://api.box.com/oauth2/token"))
+        .andExpect(method(POST))
+        .andRespond(withBadRequest()
+                    .body(boxJsonError)
+                    .contentType(MediaType.APPLICATION_JSON));
+        try {
+            boxOAuth2Template.exchangeForAccess("authorizationCode", "redirectUri", null);
+        } catch (InvalidAuthorizationException e) {
+            assertEquals("box grant error description", e.getMessage());
+        }
+    }
+
+    @Test
     public void unknownBoxError() {
         final String boxJsonError = "{\"error\":\"something_we_do_not_know_about\", \"error_description\":\"box grant error description\"}";
         mockRestServiceServer.expect(requestTo("https://api.box.com/oauth2/token"))
@@ -109,8 +127,38 @@ public class BoxOAuth2TemplateTest extends AbstractBoxTest{
     }
 
     @Test
-    public void unknownErrorObject() {
+    public void unknownErrorObject1() {
         final String boxJsonError = "{\"unknown\":\"error object\"}";
+        mockRestServiceServer.expect(requestTo("https://api.box.com/oauth2/token"))
+        .andExpect(method(POST))
+        .andRespond(withBadRequest()
+                    .body(boxJsonError)
+                    .contentType(MediaType.APPLICATION_JSON));
+        try {
+            boxOAuth2Template.exchangeForAccess("authorizationCode", "redirectUri", null);
+        } catch (RejectedAuthorizationException e) {
+            assertEquals("Error while performing an OAuth2 operation - " + boxJsonError, e.getMessage());
+        }
+    }
+
+    @Test
+    public void unknownErrorObject2() {
+        final String boxJsonError = "{\"error\":\"invalid_grant\", \"unknown\":\"error object\"}";
+        mockRestServiceServer.expect(requestTo("https://api.box.com/oauth2/token"))
+        .andExpect(method(POST))
+        .andRespond(withBadRequest()
+                    .body(boxJsonError)
+                    .contentType(MediaType.APPLICATION_JSON));
+        try {
+            boxOAuth2Template.exchangeForAccess("authorizationCode", "redirectUri", null);
+        } catch (RejectedAuthorizationException e) {
+            assertEquals("Error while performing an OAuth2 operation - " + boxJsonError, e.getMessage());
+        }
+    }
+
+    @Test
+    public void invalidErrorObject() {
+        final String boxJsonError = "{\"invalid\":\"error object\"";
         mockRestServiceServer.expect(requestTo("https://api.box.com/oauth2/token"))
         .andExpect(method(POST))
         .andRespond(withBadRequest()

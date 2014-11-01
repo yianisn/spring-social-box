@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.InvalidAuthorizationException;
@@ -34,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Subclass of {@link DefaultResponseErrorHandler} that handles errors from box's
- * OAuth API, interpreting them into appropriate Spring SocialExceptions.
+ * OAuth2 API, interpreting them into appropriate Spring SocialExceptions.
  * @author Ioannis Nikolaou
  */
 public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
@@ -61,24 +60,19 @@ public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
             throw new UncategorizedApiException(BOX, "Could not parse error details from Box - " + errorObject, e);
         }
 
+        if ((boxOAuth2Error.getError() == null) || (boxOAuth2Error.getErrorDescription() == null))
+            throw new RejectedAuthorizationException(BOX, "Error while performing an OAuth2 operation - " + errorObject);
+
         handleBoxOAuth2Error(boxOAuth2Error);
     }
 
-    /**
-     *
-     * @param boxOAuth2Error
-     */
     private void handleBoxOAuth2Error(BoxOAuth2Error boxOAuth2Error) {
         if (boxOAuth2Error.getError().equals("invalid_grant"))
             throw new InvalidAuthorizationException(BOX, boxOAuth2Error.getErrorDescription());
         else  // if not otherwise handled, wrap in RejectedAuthorizationException
             throw new RejectedAuthorizationException(BOX, "Error while performing an OAuth2 operation. " + boxOAuth2Error.getError() + ": " + boxOAuth2Error.getErrorDescription());
     }
-    /**
-     * @param response
-     * @param errorDetails
-     * @throws IOException
-     */
+
     private void handleErrorWithoutErrorObject(ClientHttpResponse response) {
         try {
             super.handleError(response);

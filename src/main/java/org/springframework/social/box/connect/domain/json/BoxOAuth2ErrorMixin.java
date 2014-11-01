@@ -15,12 +15,14 @@
  */
 package org.springframework.social.box.connect.domain.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
  * @author Ioannis Nikolaou
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BoxOAuth2ErrorMixin {
     @JsonProperty("error")
     private String error;
