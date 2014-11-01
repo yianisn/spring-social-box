@@ -13,21 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.box.api;
-
-import org.springframework.social.ApiBinding;
+package org.springframework.social.box.api.impl;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
+public abstract class AbstractBoxOperations {
+    static final String BOX_API_URL = "https://api.box.com/2.0/";
 
-    /**
-     * API for working with box users.
-     * @return {@link UserOperations}
-     */
-    UserOperations userOperations();
 }

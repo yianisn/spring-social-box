@@ -15,19 +15,18 @@
  */
 package org.springframework.social.box.api;
 
-import org.springframework.social.ApiBinding;
+import org.springframework.social.box.domain.BoxUser;
 
 /**
- * Interface specifying a basic set of operations for interacting with box.
- * Implemented by BoxTemplate.
  *
  * @author Ioannis Nikolaou
  */
-public interface Box extends ApiBinding{
+public interface UserOperations {
 
     /**
-     * API for working with box users.
-     * @return {@link UserOperations}
+     * Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
+     * @return the user's profile information.
      */
-    UserOperations userOperations();
+    public BoxUser getUserInformation();
+
 }

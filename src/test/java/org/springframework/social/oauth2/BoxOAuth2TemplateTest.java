@@ -61,7 +61,7 @@ public class BoxOAuth2TemplateTest extends AbstractBoxTest{
         AccessGrant accessGrant = boxOAuth2Template.exchangeForAccess("myAuthorizationCode", "myRedirectUri", null);
 
         mockRestServiceServer.verify();
-        assertEquals("T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl", accessGrant.getAccessToken());
+        assertEquals("T9cE5asGnuyYCBqIZFoWjFHvNbvVqHjl", accessGrant.getAccessToken());
     }
 
     @Test
