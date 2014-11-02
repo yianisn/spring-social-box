@@ -16,6 +16,8 @@
 package org.springframework.social.box.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -23,7 +25,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -77,7 +78,7 @@ public class UserOperationTest extends AbstractBoxTest {
 
         BoxUser boxUser = boxTemplate.userOperations().getUserInformation(Arrays.asList(BoxUserFields.NAME, BoxUserFields.CREATED_AT));
         assertEquals("John Doe", boxUser.getName());
-        assertTrue(boxUser.getCreatedAt() != null);
-        assertTrue(boxUser.getRole() == null);
+        assertNotNull(boxUser.getCreatedAt());
+        assertNull(boxUser.getRole());
     }
 }

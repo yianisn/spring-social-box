@@ -15,10 +15,16 @@
  */
 package org.springframework.social.box.connect;
 
+import java.util.Arrays;
+
+import org.springframework.social.ApiException;
 import org.springframework.social.box.api.Box;
+import org.springframework.social.box.api.impl.UserTemplate.BoxUserFields;
+import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
+import org.springframework.social.connect.UserProfileBuilder;
 
 /**
  * box ApiAdapter implementation.
@@ -30,32 +36,46 @@ public class BoxAdapter implements ApiAdapter<Box>{
      * @see org.springframework.social.connect.ApiAdapter#test(java.lang.Object)
      */
     public boolean test(Box api) {
-        // TODO Auto-generated method stub
-        return false;
+        try {
+            api.userOperations().getUserInformation(Arrays.asList(BoxUserFields.ID));
+            return true;
+        } catch (ApiException e) {
+            return false;
+        }
     }
 
     /* (non-Javadoc)
      * @see org.springframework.social.connect.ApiAdapter#setConnectionValues(java.lang.Object, org.springframework.social.connect.ConnectionValues)
      */
     public void setConnectionValues(Box api, ConnectionValues values) {
-        // TODO Auto-generated method stub
-
+        BoxUser boxUser = api.userOperations().getUserInformation(
+                Arrays.asList(BoxUserFields.ID,
+                              BoxUserFields.NAME,
+                              BoxUserFields.AVATAR_URL));
+        values.setProviderUserId(boxUser.getId());
+        values.setDisplayName(boxUser.getName());
+        values.setProfileUrl(null);
+        values.setImageUrl(boxUser.getAvatarUrl());
     }
 
     /* (non-Javadoc)
      * @see org.springframework.social.connect.ApiAdapter#fetchUserProfile(java.lang.Object)
      */
     public UserProfile fetchUserProfile(Box api) {
-        // TODO Auto-generated method stub
-        return null;
+        BoxUser boxUser = api.userOperations().getUserInformation(
+                Arrays.asList(BoxUserFields.LOGIN,
+                              BoxUserFields.NAME));
+        return new UserProfileBuilder()
+                .setUsername(boxUser.getLogin())
+                .setName(boxUser.getName())
+                .setEmail(boxUser.getLogin()).build();
     }
 
     /* (non-Javadoc)
      * @see org.springframework.social.connect.ApiAdapter#updateStatus(java.lang.Object, java.lang.String)
      */
     public void updateStatus(Box api, String message) {
-        // TODO Auto-generated method stub
-
+        return;
     }
 
 }
