@@ -15,6 +15,9 @@
  */
 package org.springframework.social.box.api;
 
+import java.util.List;
+
+import org.springframework.social.box.api.impl.UserTemplate.BoxUserFields;
 import org.springframework.social.box.domain.BoxUser;
 
 /**
@@ -24,9 +27,19 @@ import org.springframework.social.box.domain.BoxUser;
 public interface UserOperations {
 
     /**
-     * Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
+     * Retrieves all the information about the user who is currently logged in i.e.
+     * the user for whom this auth token was generated.
      * @return the user's profile information.
      */
     public BoxUser getUserInformation();
+
+    /**
+     * Retrieves a subset of the information about the user who is currently logged in i.e.
+     * the user for whom this auth token was generated. The fields that can be used to define
+     * the subset are defined in {@link BoxUserFields}
+     * @param fields A list of the fields of the user information data that will be returned.
+     * @return
+     */
+    public BoxUser getUserInformation(List<BoxUserFields> fields);
 
 }

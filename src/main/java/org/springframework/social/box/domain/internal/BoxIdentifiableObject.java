@@ -13,4 +13,5 @@ public abstract class BoxIdentifiableObject extends BoxObject {
 	public BoxItemType getType() {
 		return type;
 	}
+
 }

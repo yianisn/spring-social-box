@@ -15,7 +15,7 @@
  */
 package org.springframework.social.box.api.impl;
 
-import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.social.support.URIBuilder;
@@ -35,12 +35,19 @@ public class BoxOperations {
     }
 
     @SuppressWarnings("incomplete-switch")
-    protected <T> T boxOperation(HttpMethod httpMethod, String operation, Class<T> domainClass) {
-        URI uri = URIBuilder.fromUri(BOX_API_URL + operation).build();
+    protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation, List<E> fields, Class<T> domainClass) {
+        URIBuilder uri = URIBuilder.fromUri(BOX_API_URL + operation);
+        if (fields != null && fields.size() > 0) {
+            StringBuilder fieldsCSV = new StringBuilder();
+            for (E e: fields)
+                fieldsCSV.append(e.toString().toLowerCase()).append(",");
+            fieldsCSV.setLength(fieldsCSV.length()-1);
+            uri.queryParam("fields", fieldsCSV.toString());
+        }
 
         switch (httpMethod) {
             case GET:
-                return restTemplate.getForObject(uri, domainClass);
+                return restTemplate.getForObject(uri.build(), domainClass);
         }
 
         return null;

@@ -22,10 +22,14 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import java.util.Arrays;
+import java.util.Date;
+
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.impl.BoxTemplate;
+import org.springframework.social.box.api.impl.UserTemplate.BoxUserFields;
 import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.box.domain.enums.BoxItemType;
 import org.springframework.social.box.domain.enums.BoxUserRole;
@@ -54,7 +58,7 @@ public class UserOperationTest extends AbstractBoxTest {
     }
 
     @Test
-    public void userInformationBoxExample() {
+    public void userInformationBoxExampleData() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/users/me"))
             .andExpect(method(GET))
             .andRespond(withSuccess(jsonResource("userInformationBoxExample"), MediaType.APPLICATION_JSON));
@@ -63,5 +67,17 @@ public class UserOperationTest extends AbstractBoxTest {
         assertEquals(BoxUserRole.ADMIN, boxUser.getRole());
         assertEquals(BoxItemType.ENTERPRISE, boxUser.getEnterprise().getType());
         assertTrue(boxUser.getMyTags().contains("needs review"));
+    }
+
+    @Test
+    public void userInformationSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/users/me?fields=name%2Ccreated_at"))
+        .andExpect(method(GET))
+        .andRespond(withSuccess(jsonResource("userInformationSubset"), MediaType.APPLICATION_JSON));
+
+        BoxUser boxUser = boxTemplate.userOperations().getUserInformation(Arrays.asList(BoxUserFields.NAME, BoxUserFields.CREATED_AT));
+        assertEquals("John Doe", boxUser.getName());
+        assertTrue(boxUser.getCreatedAt() != null);
+        assertTrue(boxUser.getRole() == null);
     }
 }
