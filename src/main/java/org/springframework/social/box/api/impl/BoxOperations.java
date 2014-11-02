@@ -15,11 +15,35 @@
  */
 package org.springframework.social.box.api.impl;
 
+import java.net.URI;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.social.support.URIBuilder;
+import org.springframework.web.client.RestTemplate;
+
 /**
  *
  * @author Ioannis Nikolaou
  */
-public abstract class AbstractBoxOperations {
+public class BoxOperations {
     static final String BOX_API_URL = "https://api.box.com/2.0/";
+
+    protected final RestTemplate restTemplate;
+
+    protected BoxOperations(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    @SuppressWarnings("incomplete-switch")
+    protected <T> T boxOperation(HttpMethod httpMethod, String operation, Class<T> domainClass) {
+        URI uri = URIBuilder.fromUri(BOX_API_URL + operation).build();
+
+        switch (httpMethod) {
+            case GET:
+                return restTemplate.getForObject(uri, domainClass);
+        }
+
+        return null;
+    }
 
 }

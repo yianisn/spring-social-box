@@ -15,31 +15,26 @@
  */
 package org.springframework.social.box.api.impl;
 
-import java.net.URI;
-
+import org.springframework.http.HttpMethod;
 import org.springframework.social.box.api.UserOperations;
 import org.springframework.social.box.domain.BoxUser;
-import org.springframework.social.support.URIBuilder;
 import org.springframework.web.client.RestTemplate;
 
 /**
  *
  * @author Ioannis Nikolaou
  */
-public class UserTemplate extends AbstractBoxOperations implements UserOperations {
-
-    private final RestTemplate restTemplate;
+public class UserTemplate extends BoxOperations implements UserOperations {
 
     public UserTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+        super(restTemplate);
     }
 
     /* (non-Javadoc)
      * @see org.springframework.social.box.api.UserOperations#getUserInformation()
      */
     public BoxUser getUserInformation() {
-        URI uri = URIBuilder.fromUri(BOX_API_URL + "users/me").build();
-        return restTemplate.getForObject(uri, BoxUser.class);
+        return boxOperation(HttpMethod.GET, "users/me", BoxUser.class);
     }
 
 }
