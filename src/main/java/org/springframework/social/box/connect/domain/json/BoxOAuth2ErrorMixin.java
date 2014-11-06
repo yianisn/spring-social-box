@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BoxOAuth2ErrorMixin {
     @JsonProperty("error")
-    private String error;
+    String error;
     @JsonProperty("error_description")
-    private String errorDescription;
+    String errorDescription;
 }

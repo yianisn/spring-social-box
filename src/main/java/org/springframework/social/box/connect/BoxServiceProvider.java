@@ -18,7 +18,6 @@ package org.springframework.social.box.connect;
 import org.springframework.social.box.api.Box;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 
 /**
  * box ServiceProvider implementation.

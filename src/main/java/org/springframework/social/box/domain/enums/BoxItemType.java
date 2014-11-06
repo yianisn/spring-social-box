@@ -4,5 +4,6 @@ public enum BoxItemType {
     FILE,
 	FOLDER,
 	USER,
-	ENTERPRISE;
+	ENTERPRISE,
+	ERROR;
 }

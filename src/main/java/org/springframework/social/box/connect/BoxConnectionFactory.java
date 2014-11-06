@@ -30,7 +30,7 @@ public class BoxConnectionFactory extends OAuth2ConnectionFactory<Box>{
      * @param apiAdapter
      */
     public BoxConnectionFactory(String clientId, String clientSecret) {
-        super("box", new BoxServiceProvider(clientId, clientSecret), new BoxAdapter());
+        super(Box.BOX_PROVIDER_NAME, new BoxServiceProvider(clientId, clientSecret), new BoxAdapter());
     }
 
 }

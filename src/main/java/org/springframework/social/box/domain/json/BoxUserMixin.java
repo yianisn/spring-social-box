@@ -17,49 +17,49 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class BoxUserMixin {
     @JsonProperty("name")
-    private String name;
+    String name;
     @JsonProperty("login")
-    private String login;
+    String login;
     @JsonProperty("created_at")
-    private Date createdAt;
+    Date createdAt;
     @JsonProperty("modified_at")
-    private Date modifiedAt;
+    Date modifiedAt;
     @JsonProperty("role")
     @JsonDeserialize(using=BoxUserRoleDeserializer.class)
-    private BoxUserRole role;
+    BoxUserRole role;
     @JsonProperty("language")
-    private String language;
+    String language;
     @JsonProperty("timezone")
-    private String timezone;
+    String timezone;
     @JsonProperty("space_amount")
-    private Long spaceAmount;
+    Long spaceAmount;
     @JsonProperty("space_used")
-    private Long spaceUsed;
+    Long spaceUsed;
     @JsonProperty("max_upload_size")
-    private Long maxUploadSize;
+    Long maxUploadSize;
     @JsonProperty("tracking_codes")
     List<String> trackingCodes;
     @JsonProperty("can_see_managed_users")
-    private Boolean canSeeManagedUsers;
+    Boolean canSeeManagedUsers;
     @JsonProperty("is_sync_enabled")
-    private Boolean isSyncEnabled;
+    Boolean isSyncEnabled;
     @JsonProperty("status")
     @JsonDeserialize(using=BoxUserStatusDeserializer.class)
-    private BoxUserStatus status;
+    BoxUserStatus status;
     @JsonProperty("job_title")
-    private String jobTitle;
+    String jobTitle;
     @JsonProperty("phone")
-    private String phone;
+    String phone;
     @JsonProperty("address")
-    private String address;
+    String address;
     @JsonProperty("avatar_url")
-    private String avatarUrl;
+    String avatarUrl;
     @JsonProperty("is_exempt_from_device_limits")
-    private Boolean isExemptFromDeviceLimits;
+    Boolean isExemptFromDeviceLimits;
     @JsonProperty("is_exempt_from_login_verification")
-    private Boolean isExemptFromLoginVerification;
+    Boolean isExemptFromLoginVerification;
     @JsonProperty("enterprise")
-    private BoxEnterpriseMini enterprise;
+    BoxEnterpriseMini enterprise;
     @JsonProperty("my_tags")
     List<String> myTags;
 

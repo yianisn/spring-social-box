@@ -20,6 +20,7 @@ import org.springframework.social.box.api.Box;
 import org.springframework.social.box.api.UserOperations;
 import org.springframework.social.box.domain.BoxModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -62,5 +63,15 @@ public class BoxTemplate extends AbstractOAuth2ApiBinding implements Box {
         converter.setObjectMapper(objectMapper);
         return converter;
     }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.oauth2.AbstractOAuth2ApiBinding#configureRestTemplate(org.springframework.web.client.RestTemplate)
+     */
+    @Override
+    protected void configureRestTemplate(RestTemplate restTemplate) {
+        restTemplate.setErrorHandler(new BoxErrorHandler());
+    }
+
+
 
 }

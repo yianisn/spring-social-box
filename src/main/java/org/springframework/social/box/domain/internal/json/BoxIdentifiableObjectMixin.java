@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BoxIdentifiableObjectMixin {
     @JsonProperty("id")
-    private String id;
+    String id;
     @JsonProperty("type")
     @JsonDeserialize(using=BoxItemTypeDeserializer.class)
-	private BoxItemType type;
+	BoxItemType type;
 
-    private static class BoxItemTypeDeserializer extends JsonDeserializer<BoxItemType> {
+    public static class BoxItemTypeDeserializer extends JsonDeserializer<BoxItemType> {
         @Override
         public BoxItemType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             return BoxItemType.valueOf(jp.getText().toUpperCase());
