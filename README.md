@@ -49,3 +49,7 @@ unsupported
 
 * OAuth2 operations will throw SopringSocial exceptions
 * Box API operation will throw SopringSocial exceptions
+
+## License
+
+spring-social-box is released under version 2.0 of the [Apache License].
