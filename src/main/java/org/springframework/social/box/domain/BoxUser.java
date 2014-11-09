@@ -65,7 +65,7 @@ public class BoxUser extends BoxIdentifiableObject {
     public List<String> getTrackingCodes() {
         return trackingCodes;
     }
-    public Boolean getCan_see_managedUsers() {
+    public Boolean getCanSeeManagedUsers() {
         return canSeeManagedUsers;
     }
     public Boolean getIsSyncEnabled() {

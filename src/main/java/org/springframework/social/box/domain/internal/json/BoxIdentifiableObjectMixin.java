@@ -7,7 +7,6 @@ import org.springframework.social.box.domain.enums.BoxItemType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -18,11 +17,11 @@ public class BoxIdentifiableObjectMixin {
     String id;
     @JsonProperty("type")
     @JsonDeserialize(using=BoxItemTypeDeserializer.class)
-	BoxItemType type;
+    BoxItemType type;
 
     public static class BoxItemTypeDeserializer extends JsonDeserializer<BoxItemType> {
         @Override
-        public BoxItemType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public BoxItemType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             return BoxItemType.valueOf(jp.getText().toUpperCase());
         }
     }

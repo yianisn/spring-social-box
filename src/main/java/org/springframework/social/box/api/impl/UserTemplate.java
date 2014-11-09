@@ -35,6 +35,7 @@ public class UserTemplate extends BoxOperations implements UserOperations {
     /* (non-Javadoc)
      * @see org.springframework.social.box.api.UserOperations#getUserInformation()
      */
+    @Override
     public BoxUser getUserInformation() {
         return getUserInformation(null);
     }
@@ -42,6 +43,7 @@ public class UserTemplate extends BoxOperations implements UserOperations {
     /* (non-Javadoc)
      * @see org.springframework.social.box.api.UserOperations#getUserInformation(java.util.List)
      */
+    @Override
     public BoxUser getUserInformation(List<BoxUserFields> fields) {
         return boxOperation(HttpMethod.GET, "users/me", fields, BoxUser.class);
     }

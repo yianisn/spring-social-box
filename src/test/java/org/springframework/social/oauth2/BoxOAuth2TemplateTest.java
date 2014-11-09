@@ -74,7 +74,7 @@ public class BoxOAuth2TemplateTest extends AbstractBoxTest{
             boxOAuth2Template.exchangeForAccess("authorizationCode",
                     "redirectUri", null);
         } catch (UncategorizedApiException e) {
-            assertEquals("400 Bad Request - No error details from Box", e.getMessage());
+            assertEquals("No error details from Box", e.getMessage());
         }
     }
 

@@ -13,7 +13,6 @@ import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.ServerDownException;
 import org.springframework.social.UncategorizedApiException;
-import org.springframework.social.box.api.Box;
 import org.springframework.social.box.domain.BoxError;
 import org.springframework.social.box.domain.json.BoxErrorMixin;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -38,56 +37,66 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
             // The api.box.com endpoint returns the error object for the unauthorized access
             // in the response header instead of the response body...
             // < WWW-Authenticate: Bearer realm="Service",  error="invalid_token", error_description="The access token provided is invalid."
-            throw new InvalidAuthorizationException(Box.BOX_PROVIDER_NAME, "The access token provided is invalid.");
+            throw new InvalidAuthorizationException(BoxOperations.BOX_PROVIDER_NAME, "The access token provided is invalid.");
         } else {
             BoxError boxError = null;
             try {
                 boxError = mapper.readValue(response.getBody(), BoxError.class);
             } catch (Exception e) {
-                throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME,
+                throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME,
                         e.getMessage(), e);
             }
-            Integer status = boxError.getStatus();
             String code = boxError.getCode();
             StringBuilder sb = new StringBuilder(boxError.getMessage()).
-                    append(". Status: ").append(status).
+                    append(". Status: ").append(boxError.getStatus()).
                     append(". Error code: ").append(code);
 
-            if (boxError.getHelpUrl() != null)
+            if (boxError.getHelpUrl() != null) {
                 sb.append(". More information about this error at ").
                    append(boxError.getHelpUrl());
+            }
             String message = sb.toString();
 
+            HttpStatus status = HttpStatus.valueOf(boxError.getStatus());
             switch (status) {
-            case 400: // 400 bad_request
+            // 400 bad_request
+            case BAD_REQUEST:
                 handleBoxError400(code, message);
                 break;
-            case 403: // 403 forbidden
+            // 403 forbidden
+            case FORBIDDEN:
                 handleBoxError403(code, message);
                 break;
-            case 404: // 404 not_found
+            // 404 not_found
+            case NOT_FOUND:
                 handleBoxError404(code, message);
                 break;
-            case 405: // 405 method_not_allowed
+            // 405 method_not_allowed
+            case METHOD_NOT_ALLOWED:
                 handleBoxError405(code, message);
                 break;
-            case 409: // 409 conflict
+            // 409 conflict
+            case CONFLICT:
                 handleBoxError409(code, message);
                 break;
-            case 412: // 412 precondition_failed
+            // 412 precondition_failed
+            case PRECONDITION_FAILED:
                 handleBoxError412(code, message);
                 break;
-            case 429: // 429 too_many_requests
+            // 429 too_many_requests
+            case TOO_MANY_REQUESTS:
                 handleBoxError429(code, message);
                 break;
-            case 500: // 500 internal_server_error
+            // 500 internal_server_error
+            case INTERNAL_SERVER_ERROR:
                 handleBoxError500(code, message);
                 break;
-            case 503: // 503 unavailable
+            // 503 unavailable
+            case SERVICE_UNAVAILABLE:
                 handleBoxError503(code, message);
                 break;
             default:
-                throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message, new ApiException(Box.BOX_PROVIDER_NAME, message));
+                throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message, new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
             }
         }
     }
@@ -95,7 +104,7 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
     // 400 bad_request
     private void handleBoxError400(String code, String message) {
         if ("bad_request".equals(code)) {
-            throw new ApiException(Box.BOX_PROVIDER_NAME, message);
+            throw new ApiException(BoxOperations.BOX_PROVIDER_NAME, message);
         } else if (code.matches(
                 "item_name_invalid|"
                 + "terms_of_service_required|"
@@ -113,11 +122,11 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
                 + "invalid_collaboration_item|"
                 + "task_assignee_not_allowed|"
                 + "invalid_status")) {
-            throw new OperationNotPermittedException(Box.BOX_PROVIDER_NAME,
+            throw new OperationNotPermittedException(BoxOperations.BOX_PROVIDER_NAME,
                     message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
@@ -130,10 +139,10 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
                 + "access_denied_item_locked|"
                 + "file_size_limit_exceeded|"
                 + "incorrect_shared_item_password")) {
-            throw new OperationNotPermittedException(Box.BOX_PROVIDER_NAME, message);
+            throw new OperationNotPermittedException(BoxOperations.BOX_PROVIDER_NAME, message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
@@ -144,21 +153,21 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
                 + "preview_cannot_be_generated|"
                 + "trashed|"
                 + "not_trashed")) {
-            throw new ResourceNotFoundException(Box.BOX_PROVIDER_NAME, message);
+            throw new ResourceNotFoundException(BoxOperations.BOX_PROVIDER_NAME, message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
     // 405 method_not_allowed
     private void handleBoxError405(String code, String message) {
         if ("method_not_allowed".equals(code)) {
-            throw new OperationNotPermittedException(Box.BOX_PROVIDER_NAME,
+            throw new OperationNotPermittedException(BoxOperations.BOX_PROVIDER_NAME,
                     message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
@@ -169,52 +178,52 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
                 + "conflict|"
                 + "user_login_already_used|"
                 + "recent_similar_comment")) {
-            throw new DuplicateStatusException(Box.BOX_PROVIDER_NAME, message);
+            throw new DuplicateStatusException(BoxOperations.BOX_PROVIDER_NAME, message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
     // 412 precondition_failed
     private void handleBoxError412(String code, String message) {
         if ("precondition_failed".equals(code)) {
-            throw new OperationNotPermittedException(Box.BOX_PROVIDER_NAME,
+            throw new OperationNotPermittedException(BoxOperations.BOX_PROVIDER_NAME,
                     message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
     // 429 too_many_requests
     private void handleBoxError429(String code, String message) {
         if ("rate_limit_exceeded".equals(code)) {
-            throw new RateLimitExceededException(Box.BOX_PROVIDER_NAME);
+            throw new RateLimitExceededException(BoxOperations.BOX_PROVIDER_NAME);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
     // 500 internal_server_error
     private void handleBoxError500(String code, String message) {
         if ("internal_server_error".equals(code)) {
-            throw new InternalServerErrorException(Box.BOX_PROVIDER_NAME,
+            throw new InternalServerErrorException(BoxOperations.BOX_PROVIDER_NAME,
                     message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 
     // 503 unavailable
     private void handleBoxError503(String code, String message) {
         if ("unavailable".equals(code)) {
-            throw new ServerDownException(Box.BOX_PROVIDER_NAME, message);
+            throw new ServerDownException(BoxOperations.BOX_PROVIDER_NAME, message);
         } else {
-            throw new UncategorizedApiException(Box.BOX_PROVIDER_NAME, message,
-                    new ApiException(Box.BOX_PROVIDER_NAME, message));
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
+                    new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
         }
     }
 }

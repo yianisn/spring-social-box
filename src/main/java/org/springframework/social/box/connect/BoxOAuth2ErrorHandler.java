@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
 
-    final static String BOX = "box";
+    static final String BOX = "box";
 
     @Override
     public void handleError(ClientHttpResponse response) {
@@ -48,7 +48,7 @@ public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
         try {
             errorObject = readFully(response.getBody());
         } catch (Exception e) {
-            handleErrorWithoutErrorObject(response);
+            throw new UncategorizedApiException(BOX, "No error details from Box", e);
         }
 
         ObjectMapper mapper = new ObjectMapper(new JsonFactory());
@@ -60,28 +60,20 @@ public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
             throw new UncategorizedApiException(BOX, "Could not parse error details from Box - " + errorObject, e);
         }
 
-        if ((boxOAuth2Error.getError() == null) || (boxOAuth2Error.getErrorDescription() == null))
+        if ((boxOAuth2Error.getError() == null) || (boxOAuth2Error.getErrorDescription() == null)) {
             throw new RejectedAuthorizationException(BOX, "Error while performing an OAuth2 operation - " + errorObject);
+        }
 
         handleBoxOAuth2Error(boxOAuth2Error);
     }
 
     private void handleBoxOAuth2Error(BoxOAuth2Error boxOAuth2Error) {
-        if (boxOAuth2Error.getError().equals("invalid_grant"))
+        if ("invalid_grant".equals(boxOAuth2Error.getError())) {
             throw new InvalidAuthorizationException(BOX, boxOAuth2Error.getErrorDescription());
-        else  // if not otherwise handled, wrap in RejectedAuthorizationException
+        }
+        // if not otherwise handled, wrap in RejectedAuthorizationException
+        else  {
             throw new RejectedAuthorizationException(BOX, "Error while performing an OAuth2 operation. " + boxOAuth2Error.getError() + ": " + boxOAuth2Error.getErrorDescription());
-    }
-
-    private void handleErrorWithoutErrorObject(ClientHttpResponse response) {
-        try {
-            super.handleError(response);
-        } catch (Exception e) {
-            String errorMessage = e.getMessage();
-            if (errorMessage != null)
-                throw new UncategorizedApiException(BOX, errorMessage + " - No error details from Box", e);
-            else
-                throw new UncategorizedApiException(BOX, "No error details from Box", e);
         }
     }
 

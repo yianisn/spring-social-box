@@ -48,6 +48,10 @@ public class BoxTemplate extends AbstractOAuth2ApiBinding implements Box {
         userOperations = new UserTemplate(getRestTemplate());
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.social.oauth2.AbstractOAuth2ApiBinding#getJsonMessageConverter()
+     */
+    @Override
     public UserOperations userOperations() {
         return userOperations;
     }

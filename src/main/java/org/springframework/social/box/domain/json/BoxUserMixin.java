@@ -10,7 +10,6 @@ import org.springframework.social.box.domain.internal.BoxEnterpriseMini;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -65,14 +64,14 @@ public class BoxUserMixin {
 
     private static class BoxUserRoleDeserializer extends JsonDeserializer<BoxUserRole> {
         @Override
-        public BoxUserRole deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public BoxUserRole deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             return BoxUserRole.valueOf(jp.getText().toUpperCase());
         }
     }
 
     private static class BoxUserStatusDeserializer extends JsonDeserializer<BoxUserStatus> {
         @Override
-        public BoxUserStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public BoxUserStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             return BoxUserStatus.valueOf(jp.getText().toUpperCase());
         }
     }

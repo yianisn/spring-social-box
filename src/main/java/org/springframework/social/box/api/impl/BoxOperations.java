@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Ioannis Nikolaou
  */
 public class BoxOperations {
+    public static final String BOX_PROVIDER_NAME = "box";
     static final String BOX_API_URL = "https://api.box.com/2.0/";
 
     protected final RestTemplate restTemplate;
@@ -38,8 +39,9 @@ public class BoxOperations {
         URIBuilder uri = URIBuilder.fromUri(BOX_API_URL + operation);
         if (fields != null && !fields.isEmpty()) {
             StringBuilder fieldsCSV = new StringBuilder();
-            for (E e: fields)
+            for (E e: fields) {
                 fieldsCSV.append(e.toString().toLowerCase()).append(",");
+            }
             fieldsCSV.setLength(fieldsCSV.length()-1);
             uri.queryParam("fields", fieldsCSV.toString());
         }

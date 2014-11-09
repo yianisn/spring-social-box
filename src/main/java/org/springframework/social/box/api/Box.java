@@ -24,8 +24,6 @@ import org.springframework.social.ApiBinding;
  * @author Ioannis Nikolaou
  */
 public interface Box extends ApiBinding {
-    public static final String BOX_PROVIDER_NAME = "box";
-
     /**
      * API for working with box users.
      * @return {@link UserOperations}

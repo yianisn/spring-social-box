@@ -16,6 +16,7 @@
 package org.springframework.social.box.connect;
 
 import org.springframework.social.box.api.Box;
+import org.springframework.social.box.api.impl.BoxOperations;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**
@@ -30,7 +31,7 @@ public class BoxConnectionFactory extends OAuth2ConnectionFactory<Box>{
      * @param apiAdapter
      */
     public BoxConnectionFactory(String clientId, String clientSecret) {
-        super(Box.BOX_PROVIDER_NAME, new BoxServiceProvider(clientId, clientSecret), new BoxAdapter());
+        super(BoxOperations.BOX_PROVIDER_NAME, new BoxServiceProvider(clientId, clientSecret), new BoxAdapter());
     }
 
 }
