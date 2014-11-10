@@ -29,4 +29,10 @@ public interface Box extends ApiBinding {
      * @return {@link UserOperations}
      */
     UserOperations userOperations();
+
+    /**
+     * API for working with box folders
+     * @return {@link FolderOperations}
+     */
+    FolderOperations folderOperations();
 }

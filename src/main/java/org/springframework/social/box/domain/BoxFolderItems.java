@@ -2,16 +2,16 @@ package org.springframework.social.box.domain;
 
 import java.util.List;
 
+import org.springframework.social.box.domain.internal.BoxFileMini;
 import org.springframework.social.box.domain.internal.BoxObject;
-import org.springframework.social.box.domain.internal.json.BoxFileMiniMixin;
-import org.springframework.social.box.domain.internal.json.BoxOrderMixin;
+import org.springframework.social.box.domain.internal.BoxOrder;
 
 public class BoxFolderItems extends BoxObject {
 	private Integer totalCount;
 	private Integer offset;
 	private Integer limit;
-	private List<BoxFileMiniMixin> entries;
-	private List<BoxOrderMixin> order;
+	private List<BoxFileMini> entries;
+	private List<BoxOrder> order;
 
 	public Integer getTotalCount() {
 		return totalCount;
@@ -22,10 +22,10 @@ public class BoxFolderItems extends BoxObject {
 	public Integer getLimit() {
 		return limit;
 	}
-	public List<BoxFileMiniMixin> getEntries() {
+	public List<BoxFileMini> getEntries() {
 		return entries;
 	}
-	public List<BoxOrderMixin> getOrder() {
+	public List<BoxOrder> getOrder() {
 		return order;
 	}
 }
