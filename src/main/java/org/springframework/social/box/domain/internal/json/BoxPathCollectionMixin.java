@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxPathCollectionMixin {
     @JsonProperty("total_count")
-	Integer totalCount;
+    Integer totalCount;
     @JsonProperty("entries")
-	List<BoxFolderMini> entries;
+    List<BoxFolderMini> entries;
 }

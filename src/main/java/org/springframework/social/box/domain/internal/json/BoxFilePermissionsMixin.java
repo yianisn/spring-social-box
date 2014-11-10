@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxFilePermissionsMixin {
     @JsonProperty("can_preview")
-	Boolean canPreview;
+    Boolean canPreview;
     @JsonProperty("can_comment")
-	Boolean canComment;
+    Boolean canComment;
 }

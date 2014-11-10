@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxLockMixin {
     @JsonProperty("created_by")
-	BoxUserMini createdBy;
+    BoxUserMini createdBy;
     @JsonProperty("created_at")
-	Date createdAt;
+    Date createdAt;
     @JsonProperty("expires_at")
-	Date expiresAt;
+    Date expiresAt;
     @JsonProperty("is_download_prevented")
-	Boolean isDownloadPrevented;
+    Boolean isDownloadPrevented;
 }

@@ -7,25 +7,25 @@ import org.springframework.social.box.domain.internal.BoxObject;
 import org.springframework.social.box.domain.internal.BoxOrder;
 
 public class BoxFolderItems extends BoxObject {
-	private Integer totalCount;
-	private Integer offset;
-	private Integer limit;
-	private List<BoxFileMini> entries;
-	private List<BoxOrder> order;
+    private Integer totalCount;
+    private Integer offset;
+    private Integer limit;
+    private List<BoxFileMini> entries;
+    private List<BoxOrder> order;
 
-	public Integer getTotalCount() {
-		return totalCount;
-	}
-	public Integer getOffset() {
-		return offset;
-	}
-	public Integer getLimit() {
-		return limit;
-	}
-	public List<BoxFileMini> getEntries() {
-		return entries;
-	}
-	public List<BoxOrder> getOrder() {
-		return order;
-	}
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+    public Integer getOffset() {
+        return offset;
+    }
+    public Integer getLimit() {
+        return limit;
+    }
+    public List<BoxFileMini> getEntries() {
+        return entries;
+    }
+    public List<BoxOrder> getOrder() {
+        return order;
+    }
 }

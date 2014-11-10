@@ -4,23 +4,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxSharedLinkMixin {
     @JsonProperty("url")
-	String url;
+    String url;
     @JsonProperty("download_url")
-	String downloadUrl;
+    String downloadUrl;
     @JsonProperty("vanity_url")
-	String vanityUrl;
+    String vanityUrl;
     @JsonProperty("effective_access")
-	String effectiveAccess;
+    String effectiveAccess;
     @JsonProperty("is_password_enabled")
-	String isPasswordEnabled;
+    String isPasswordEnabled;
     @JsonProperty("unshared_at")
-	String unsharedAt;
+    String unsharedAt;
     @JsonProperty("download_count")
-	String downloadCount;
+    String downloadCount;
     @JsonProperty("preview_count")
-	String previewCount;
+    String previewCount;
     @JsonProperty("access")
-	String access;
+    String access;
     @JsonProperty("permissions")
-	BoxFilePermissionsMixin permissions;
+    BoxFilePermissionsMixin permissions;
 }

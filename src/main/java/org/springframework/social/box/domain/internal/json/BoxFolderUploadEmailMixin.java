@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxFolderUploadEmailMixin {
     @JsonProperty("access")
-	String access;
+    String access;
     @JsonProperty("email")
-	String email;
+    String email;
 }
 

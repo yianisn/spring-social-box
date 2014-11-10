@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class BoxItemObjectMixin extends BoxIdentifiableObjectMixin {
     @JsonProperty("sequence_id")
-	String sequenceId;
+    String sequenceId;
     @JsonProperty("etag")
-	String etag;
+    String etag;
     @JsonProperty("name")
-	String name;
+    String name;
 }
 

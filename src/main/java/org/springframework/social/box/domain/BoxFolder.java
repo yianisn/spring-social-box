@@ -6,29 +6,29 @@ import org.springframework.social.box.domain.internal.json.BoxFolderPermissionsM
 import org.springframework.social.box.domain.internal.json.BoxFolderUploadEmailMixin;
 
 public class BoxFolder extends BoxFileSystemObjectMixin {
-	private BoxFolderUploadEmailMixin folderUploadEmail;
-	private String itemStatus;
-	private BoxFolderItems itemCollection;
-	private BoxSyncState syncState;
-	private Boolean hasCollaborations;
-	private BoxFolderPermissionsMixin permissions;
+    private BoxFolderUploadEmailMixin folderUploadEmail;
+    private String itemStatus;
+    private BoxFolderItems itemCollection;
+    private BoxSyncState syncState;
+    private Boolean hasCollaborations;
+    private BoxFolderPermissionsMixin permissions;
 
-	public BoxFolderUploadEmailMixin getFolderUploadEmail() {
-		return folderUploadEmail;
-	}
-	public String getItemStatus() {
-		return itemStatus;
-	}
-	public BoxFolderItems getItemCollection() {
-		return itemCollection;
-	}
-	public BoxSyncState getSyncState() {
-		return syncState;
-	}
-	public Boolean getHasCollaborations() {
-		return hasCollaborations;
-	}
-	public BoxFolderPermissionsMixin getPermissions() {
-		return permissions;
-	}
+    public BoxFolderUploadEmailMixin getFolderUploadEmail() {
+        return folderUploadEmail;
+    }
+    public String getItemStatus() {
+        return itemStatus;
+    }
+    public BoxFolderItems getItemCollection() {
+        return itemCollection;
+    }
+    public BoxSyncState getSyncState() {
+        return syncState;
+    }
+    public Boolean getHasCollaborations() {
+        return hasCollaborations;
+    }
+    public BoxFolderPermissionsMixin getPermissions() {
+        return permissions;
+    }
 };

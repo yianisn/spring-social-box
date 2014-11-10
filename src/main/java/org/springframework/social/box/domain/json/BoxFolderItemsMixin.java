@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxFolderItemsMixin {
     @JsonProperty("total_count")
-    private Integer totalCount;
+    Integer totalCount;
     @JsonProperty("offset")
-	private Integer offset;
+    Integer offset;
     @JsonProperty("limit")
-	private Integer limit;
+    Integer limit;
     @JsonProperty("entries")
-	private List<BoxFileMiniMixin> entries;
+    List<BoxFileMiniMixin> entries;
     @JsonProperty("order")
-	private List<BoxOrderMixin> order;
+    List<BoxOrderMixin> order;
 }

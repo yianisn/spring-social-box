@@ -70,9 +70,8 @@ public class BoxOAuth2ErrorHandler extends DefaultResponseErrorHandler {
     private void handleBoxOAuth2Error(BoxOAuth2Error boxOAuth2Error) {
         if ("invalid_grant".equals(boxOAuth2Error.getError())) {
             throw new InvalidAuthorizationException(BOX, boxOAuth2Error.getErrorDescription());
-        }
-        // if not otherwise handled, wrap in RejectedAuthorizationException
-        else  {
+        } else  {
+            // if not otherwise handled, wrap in RejectedAuthorizationException
             throw new RejectedAuthorizationException(BOX, "Error while performing an OAuth2 operation. " + boxOAuth2Error.getError() + ": " + boxOAuth2Error.getErrorDescription());
         }
     }

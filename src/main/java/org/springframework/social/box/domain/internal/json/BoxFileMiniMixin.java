@@ -4,6 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxFileMiniMixin extends BoxItemObjectMixin {
     @JsonProperty("sha1")
-	private String sha1;
+    String sha1;
 }
 

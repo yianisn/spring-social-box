@@ -15,18 +15,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class BoxFolderMixin {
     @JsonProperty("folder_upload_email")
-	BoxFolderUploadEmailMixin folderUploadEmail;
+    BoxFolderUploadEmailMixin folderUploadEmail;
     @JsonProperty("item_status")
-	String itemStatus;
+    String itemStatus;
     @JsonProperty("item_collection")
-	BoxFolderItems itemCollection;
+    BoxFolderItems itemCollection;
     @JsonProperty("sync_state")
     @JsonDeserialize(using=BoxSyncStateDeserializer.class)
-	BoxSyncState syncState;
+    BoxSyncState syncState;
     @JsonProperty("has_collaborations")
-	Boolean hasCollaborations;
+    Boolean hasCollaborations;
     @JsonProperty("permissions")
-	BoxFolderPermissionsMixin permissions;
+    BoxFolderPermissionsMixin permissions;
 
     private static class BoxSyncStateDeserializer extends JsonDeserializer<BoxSyncState> {
         @Override

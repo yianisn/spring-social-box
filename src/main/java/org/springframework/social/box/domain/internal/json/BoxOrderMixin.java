@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BoxOrderMixin {
     @JsonProperty("by")
-	String by;
+    String by;
     @JsonProperty("direction")
-	String direction;
+    String direction;
 }

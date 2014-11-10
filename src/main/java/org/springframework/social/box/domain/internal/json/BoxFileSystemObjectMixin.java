@@ -11,11 +11,11 @@ import org.springframework.social.box.domain.internal.BoxUserMini;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class BoxFileSystemObjectMixin {
+public class BoxFileSystemObjectMixin {
     @JsonProperty("description")
-	String description;
+    String description;
     @JsonProperty("size")
-	Long size;
+    Long size;
     @JsonProperty("created_at")
     Date createdAt;
     @JsonProperty("modified_at")
@@ -29,7 +29,7 @@ public abstract class BoxFileSystemObjectMixin {
     @JsonProperty("content_modified_at")
     Date contentModifiedAt;
     @JsonProperty("path_collection")
-	BoxPathCollection pathCollection;
+    BoxPathCollection pathCollection;
     @JsonProperty("created_by")
     BoxUserMini createdBy;
     @JsonProperty("modified_by")
@@ -37,11 +37,11 @@ public abstract class BoxFileSystemObjectMixin {
     @JsonProperty("owned_by")
     BoxUserMini ownedBy;
     @JsonProperty("shared_link")
-	BoxSharedLink sharedLink;
+    BoxSharedLink sharedLink;
     @JsonProperty("parent")
-	BoxFolderMini parent;
+    BoxFolderMini parent;
     @JsonProperty("tags")
-	List<String> tags;
+    List<String> tags;
     @JsonProperty("lock")
-	BoxLock lock;
+    BoxLock lock;
 }
