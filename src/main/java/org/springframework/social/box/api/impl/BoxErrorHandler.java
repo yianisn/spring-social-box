@@ -21,8 +21,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class BoxErrorHandler extends DefaultResponseErrorHandler implements
-        ResponseErrorHandler {
+public class BoxErrorHandler extends DefaultResponseErrorHandler implements ResponseErrorHandler {
     private ObjectMapper mapper;
 
     public BoxErrorHandler() {
@@ -43,22 +42,13 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
             try {
                 boxError = mapper.readValue(response.getBody(), BoxError.class);
             } catch (Exception e) {
-                throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME,
-                        e.getMessage(), e);
+                throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, e.getMessage(), e);
             }
+
+            String message = buildErrorMessage(boxError);
             String code = boxError.getCode();
-            StringBuilder sb = new StringBuilder(boxError.getMessage()).
-                    append(". Status: ").append(boxError.getStatus()).
-                    append(". Error code: ").append(code);
 
-            if (boxError.getHelpUrl() != null) {
-                sb.append(". More information about this error at ").
-                   append(boxError.getHelpUrl());
-            }
-            String message = sb.toString();
-
-            HttpStatus status = HttpStatus.valueOf(boxError.getStatus());
-            switch (status) {
+            switch (convertErrorStatusToHttpStatus(boxError.getStatus())) {
             // 400 bad_request
             case BAD_REQUEST:
                 handleBoxError400(code, message);
@@ -224,6 +214,27 @@ public class BoxErrorHandler extends DefaultResponseErrorHandler implements
         } else {
             throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, message,
                     new ApiException(BoxOperations.BOX_PROVIDER_NAME, message));
+        }
+    }
+
+    private String buildErrorMessage(BoxError boxError) {
+        String code = boxError.getCode();
+        StringBuilder sb = new StringBuilder(boxError.getMessage()).
+                append(". Status: ").append(boxError.getStatus()).
+                append(". Error code: ").append(code);
+
+        if (boxError.getHelpUrl() != null) {
+            sb.append(". More information about this error at ").
+               append(boxError.getHelpUrl());
+        }
+        return sb.toString();
+    }
+
+    private HttpStatus convertErrorStatusToHttpStatus(Integer status) {
+        try {
+            return HttpStatus.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            throw new UncategorizedApiException(BoxOperations.BOX_PROVIDER_NAME, "Unknown http error code.", new ApiException(BoxOperations.BOX_PROVIDER_NAME, "Unknown http error code."));
         }
     }
 }

@@ -58,6 +58,17 @@ public class BoxErrorHandlerTest {
     }
 
     @Test
+    public void handleWrongErrorCode() {
+        String error = "{\"type\":\"error\", \"status\":123, \"message\":\"message\", \"request_id\":\"requestId\", \"code\":\"bad_request\"}";
+        ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(new ByteArrayInputStream((error).getBytes()),HttpStatus.ACCEPTED);
+        try {
+            boxErrorHandler.handleError(clientHttpResponse);
+        } catch (Exception e) {
+            assertTrue(e instanceof UncategorizedApiException);
+        }
+    }
+
+    @Test
     public void handleUnknownError() {
         String error = "{\"unknown\":\"error\"}";
         ClientHttpResponse clientHttpResponse = new MockClientHttpResponse(new ByteArrayInputStream((error).getBytes()),HttpStatus.BAD_REQUEST);
