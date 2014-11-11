@@ -28,7 +28,7 @@ import org.springframework.social.ApiException;
 import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.Box;
 import org.springframework.social.box.api.UserOperations;
-import org.springframework.social.box.api.impl.UserTemplate.BoxUserFields;
+import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;

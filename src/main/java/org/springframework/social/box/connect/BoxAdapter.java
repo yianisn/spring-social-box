@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.box.api.Box;
-import org.springframework.social.box.api.impl.UserTemplate.BoxUserFields;
+import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
