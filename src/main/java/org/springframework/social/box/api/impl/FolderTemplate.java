@@ -21,7 +21,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.social.box.api.FolderOperations;
 import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
-import org.springframework.social.box.domain.BoxUser;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -35,6 +34,22 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
 
     public FolderTemplate(RestTemplate restTemplate) {
         super(restTemplate);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#getFolderInformation(java.lang.String)
+     */
+    @Override
+    public BoxFolder getFolderInformation(String folderId) {
+        return getFolderInformation(folderId, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#getFolderInformation(java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolder getFolderInformation(String folderId, List<BoxFolderFields> fields) {
+        return boxOperation(HttpMethod.GET, "folders/"+folderId, fields, BoxFolder.class);
     }
 
     /* (non-Javadoc)

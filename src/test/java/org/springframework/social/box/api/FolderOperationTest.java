@@ -31,6 +31,7 @@ import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.FolderOperations.BoxFolderItemsFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
+import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
 import org.springframework.social.box.domain.enums.BoxItemType;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -43,6 +44,32 @@ public class FolderOperationTest extends AbstractBoxTest {
 
     BoxTemplate boxTemplate = new BoxTemplate("accessToken");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxTemplate.getRestTemplate());
+
+    @Test
+    public void getFolderInformationBoxExampleData() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/0"))
+        .andExpect(method(GET))
+        .andRespond(withSuccess(jsonResource("folderInformationBoxExample"), MediaType.APPLICATION_JSON));
+
+        BoxFolder boxFolder = boxTemplate.folderOperations().getFolderInformation("0");
+
+        mockRestServiceServer.verify();
+        assertEquals(BoxItemType.FOLDER, boxFolder.getType());
+        assertEquals("1", boxFolder.getEtag());
+        assertEquals("active", boxFolder.getItemStatus());
+        assertEquals((Integer)100, boxFolder.getItemCollection().getLimit());
+    }
+
+    @Test
+    public void getFolderInformationSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=id"))
+        .andExpect(method(GET))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().getFolderInformation("123", Arrays.asList(BoxFolderFields.ID));
+
+        mockRestServiceServer.verify();
+    }
 
     @Test
     public void getFolderItemsBoxExampleData() {

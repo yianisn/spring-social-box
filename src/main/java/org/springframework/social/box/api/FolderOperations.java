@@ -17,10 +17,8 @@ package org.springframework.social.box.api;
 
 import java.util.List;
 
-import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
-import org.springframework.social.box.domain.BoxUser;
 
 
 /**
@@ -37,12 +35,39 @@ import org.springframework.social.box.domain.BoxUser;
 public interface FolderOperations {
 
     /**
-     * Retrieves the files and/or folders contained within this folder without
-     * any other metadata about the folder. For each item the mini format is
-     * returned. The id of the root folder is 0.
+     * Retrieves the full metadata about a folder, including information about
+     * when it was last updated as well as the files and folders contained in
+     * it. The root folder of a Box account is always represented by the id “0”.
      *
      * @param folderId
      *            the folder id
+     * @return A {@link BoxFolder} object
+     */
+    public BoxFolder getFolderInformation(String folderId);
+
+    /**
+     *
+     * Retrieves s subset of the metadata about a folder specified by the
+     * supplied fields list. The root folder of a Box account is always
+     * represented by the id “0”.
+     *
+     * @param folderId
+     *            The folder id
+     * @param fields
+     *            A list of the fields of the folder information data that will
+     *            be returned.
+     * @return A {@link BoxFolder} object
+     */
+    public BoxFolder getFolderInformation(String folderId, List<BoxFolderFields> fields);
+
+    /**
+     * Retrieves the files and/or folders contained within this folder without
+     * any other metadata about the folder. For each item the mini format is
+     * returned. The root folder of a Box account is always represented by the
+     * id “0”.
+     *
+     * @param folderId
+     *            The folder id
      *
      * @return a {@link BoxFolderItems} object
      *
@@ -54,13 +79,13 @@ public interface FolderOperations {
     /**
      * Retrieves a subset of the information of the files and/or folders
      * contained within this folder without any other metadata about the folder.
-     * For each item the mini format is returned. The id of the root folder is
-     * 0.
+     * For each item the mini format is returned. The root folder of a Box
+     * account is always represented by the id “0”.
      *
      * @param folderId
      *            the folder id
      * @param fields
-     *            A list of the fields of the user information data that will be
+     *            A list of the fields of the folder/file information data that will be
      *            returned.
      *
      * @return a {@link BoxFolderItems} object
