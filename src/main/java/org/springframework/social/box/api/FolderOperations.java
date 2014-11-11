@@ -84,6 +84,22 @@ public interface FolderOperations {
      */
     public BoxFolder createFolder(String name, String parentId);
 
+    /**
+     * Used to create a new empty folder. The new folder will be created inside
+     * of the specified parent folder. The return object will contain only the
+     * specified fields.
+     *
+     * @param name
+     *            The desired name for the folder
+     * @param parentId
+     *            The ID of the parent folder
+     * @return A {@link BoxFolder} is returned if the parent folder ID is valid
+     *         and if no name collisions occur.
+     *
+     * @see <a
+     *      href="https://developers.box.com/docs/#folders-create-a-new-folder">https://developers.box.com/docs/#folders-create-a-new-folder</a>
+     */
+    public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields);
 
     /**
      * The available fields that can be used to define the subset of the folder

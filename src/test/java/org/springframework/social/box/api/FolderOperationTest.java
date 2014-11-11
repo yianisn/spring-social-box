@@ -16,9 +16,9 @@
 package org.springframework.social.box.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -28,11 +28,10 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.FolderOperations.BoxFolderItemsFields;
-import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.box.domain.BoxFolderItems;
-import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.box.domain.enums.BoxItemType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
@@ -73,6 +72,26 @@ public class FolderOperationTest extends AbstractBoxTest {
                 Arrays.asList(BoxFolderItemsFields.SHA1, BoxFolderItemsFields.CAN_NON_OWNERS_INVITE));
 
         mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void createFolder() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders"))
+        .andExpect(content().string("{\"name\":\"A folder\",\"parent\":{\"id\":\"123\"}}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().createFolder("A folder", "123");
+    }
+
+    @Test
+    public void createFolderSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders?fields=path_collection"))
+        .andExpect(content().string("{\"name\":\"A folder\",\"parent\":{\"id\":\"123\"}}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().createFolder("A folder", "123", Arrays.asList(BoxFolderFields.PATH_COLLECTION));
     }
 }
 

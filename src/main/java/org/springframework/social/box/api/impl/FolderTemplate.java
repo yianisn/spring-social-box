@@ -58,6 +58,14 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      */
     @Override
     public BoxFolder createFolder(String name, String parentId) {
+        return createFolder(name, parentId, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#createFolder(java.lang.String, java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields) {
         JsonNodeFactory nodeFactory = new JsonNodeFactory(false);
         ObjectNode jsonBody = nodeFactory.objectNode();
         ObjectNode parent = nodeFactory.objectNode();
@@ -65,7 +73,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         jsonBody.put("name", name);
         jsonBody.put("parent", parent);
 
-        return boxOperation(HttpMethod.POST, "folders", null, jsonBody.toString(), BoxFolder.class);
+        return boxOperation(HttpMethod.POST, "folders", fields, jsonBody.toString(), BoxFolder.class);
     }
 
 }
