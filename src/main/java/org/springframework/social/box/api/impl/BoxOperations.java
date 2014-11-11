@@ -36,6 +36,10 @@ public class BoxOperations {
     }
 
     protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation, List<E> fields, Class<T> domainClass) {
+        return boxOperation(httpMethod, operation, fields, null, domainClass);
+    }
+
+    protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation, List<E> fields, String body, Class<T> domainClass) {
         URIBuilder uri = URIBuilder.fromUri(BOX_API_URL + operation);
         if (fields != null && !fields.isEmpty()) {
             StringBuilder fieldsCSV = new StringBuilder();
@@ -49,6 +53,8 @@ public class BoxOperations {
         switch (httpMethod) {
             case GET:
                 return restTemplate.getForObject(uri.build(), domainClass);
+            case POST:
+                return restTemplate.postForObject(uri.build(), body, domainClass);
             default:
                 throw new UnsupportedOperationException("This http method is not supported by spring-social-box");
         }

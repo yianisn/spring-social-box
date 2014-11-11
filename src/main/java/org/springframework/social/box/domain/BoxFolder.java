@@ -1,11 +1,11 @@
 package org.springframework.social.box.domain;
 
 import org.springframework.social.box.domain.enums.BoxSyncState;
-import org.springframework.social.box.domain.internal.json.BoxFileSystemObjectMixin;
+import org.springframework.social.box.domain.internal.BoxFileSystemObject;
 import org.springframework.social.box.domain.internal.json.BoxFolderPermissionsMixin;
 import org.springframework.social.box.domain.internal.json.BoxFolderUploadEmailMixin;
 
-public class BoxFolder extends BoxFileSystemObjectMixin {
+public class BoxFolder extends BoxFileSystemObject {
     private BoxFolderUploadEmailMixin folderUploadEmail;
     private String itemStatus;
     private BoxFolderItems itemCollection;
