@@ -15,8 +15,12 @@
  */
 package org.springframework.social.box.api;
 
+import java.util.List;
+
+import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
+import org.springframework.social.box.domain.BoxUser;
 
 
 /**
@@ -37,11 +41,34 @@ public interface FolderOperations {
      * any other metadata about the folder. For each item the mini format is
      * returned. The id of the root folder is 0.
      *
+     * @param folderId
+     *            the folder id
+     *
      * @return a {@link BoxFolderItems} object
      *
-     * @see <a href="https://developers.box.com/docs/#folders-retrieve-a-folders-items">https://developers.box.com/docs/#folders-retrieve-a-folders-items</a>
+     * @see <a
+     *      href="https://developers.box.com/docs/#folders-retrieve-a-folders-items">https://developers.box.com/docs/#folders-retrieve-a-folders-items</a>
      */
     public BoxFolderItems getFolderItems(String folderId);
+
+    /**
+     * Retrieves a subset of the information of the files and/or folders
+     * contained within this folder without any other metadata about the folder.
+     * For each item the mini format is returned. The id of the root folder is
+     * 0.
+     *
+     * @param folderId
+     *            the folder id
+     * @param fields
+     *            A list of the fields of the user information data that will be
+     *            returned.
+     *
+     * @return a {@link BoxFolderItems} object
+     *
+     * @see <a
+     *      href="https://developers.box.com/docs/#folders-retrieve-a-folders-items">https://developers.box.com/docs/#folders-retrieve-a-folders-items</a>
+     */
+    public BoxFolderItems getFolderItems(String folderId, List<BoxFolderItemsFields> fields);
 
     /**
      * Used to create a new empty folder. The new folder will be created inside

@@ -16,16 +16,23 @@
 package org.springframework.social.box.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.api.FolderOperations.BoxFolderItemsFields;
+import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.box.domain.BoxFolderItems;
+import org.springframework.social.box.domain.BoxUser;
 import org.springframework.social.box.domain.enums.BoxItemType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
@@ -46,6 +53,7 @@ public class FolderOperationTest extends AbstractBoxTest {
 
         BoxFolderItems boxFolderItems = boxTemplate.folderOperations().getFolderItems("0");
 
+        mockRestServiceServer.verify();
         assertEquals((Integer)24, boxFolderItems.getTotalCount());
         assertEquals((Integer)0, boxFolderItems.getOffset());
         assertEquals((Integer)2, boxFolderItems.getLimit());
@@ -53,6 +61,18 @@ public class FolderOperationTest extends AbstractBoxTest {
         assertEquals(BoxItemType.FOLDER, boxFolderItems.getEntries().get(0).getType());
         assertEquals(BoxItemType.FILE, boxFolderItems.getEntries().get(1).getType());
         assertEquals((int)2, boxFolderItems.getOrder().size());
+    }
+
+    @Test
+    public void getFolderItemsSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/0/items?fields=sha1%2Ccan_non_owners_invite"))
+        .andExpect(method(GET))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().getFolderItems("0",
+                Arrays.asList(BoxFolderItemsFields.SHA1, BoxFolderItemsFields.CAN_NON_OWNERS_INVITE));
+
+        mockRestServiceServer.verify();
     }
 }
 

@@ -15,10 +15,13 @@
  */
 package org.springframework.social.box.api.impl;
 
+import java.util.List;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.social.box.api.FolderOperations;
 import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
+import org.springframework.social.box.domain.BoxUser;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -39,7 +42,15 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      */
     @Override
     public BoxFolderItems getFolderItems(String folderId) {
-        return boxOperation(HttpMethod.GET, "folders/"+folderId+"/items", null, BoxFolderItems.class);
+        return getFolderItems(folderId, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#getFolderItems(java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolderItems getFolderItems(String folderId, List<BoxFolderItemsFields> fields) {
+        return boxOperation(HttpMethod.GET, "folders/"+folderId+"/items", fields, BoxFolderItems.class);
     }
 
     /* (non-Javadoc)
@@ -56,7 +67,5 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
 
         return boxOperation(HttpMethod.POST, "folders", null, jsonBody.toString(), BoxFolder.class);
     }
-
-
 
 }
