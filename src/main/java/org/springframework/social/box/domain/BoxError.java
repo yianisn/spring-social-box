@@ -3,6 +3,8 @@ package org.springframework.social.box.domain;
 import org.springframework.social.box.domain.enums.BoxItemType;
 import org.springframework.social.box.domain.internal.BoxObject;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class BoxError extends BoxObject {
     private BoxItemType type;
     private Integer status;
@@ -10,6 +12,7 @@ public class BoxError extends BoxObject {
     private String helpUrl;
     private String message;
     private String requestId;
+    private JsonNode contextInfo;
 
     public BoxItemType getType() {
         return type;
@@ -28,5 +31,8 @@ public class BoxError extends BoxObject {
     }
     public String getRequestId() {
         return requestId;
+    }
+    public JsonNode getContextInfo() {
+        return contextInfo;
     }
 }
