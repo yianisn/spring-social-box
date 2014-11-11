@@ -57,4 +57,292 @@ public interface FolderOperations {
      */
     public BoxFolder createFolder(String name, String parentId);
 
+
+    /**
+     * The available fields that can be used to define the subset of the folder
+     * information data ({@link BoxFolder}) that will be retrieved from box.
+     *
+     * @author Ioannis Nikolaou
+     */
+    public enum BoxFolderFields {
+        /**
+         * For folders is ‘folder’
+         */
+        TYPE,
+        /**
+         * The folder’s ID.
+         */
+        ID,
+        /**
+         * A unique ID for use with the /events endpoint. May be null for some
+         * folders such as root or trash.
+         */
+        SEQUENCE_ID,
+        /**
+         * A unique string identifying the version of this folder. May be null
+         * for some folders such as root or trash.
+         */
+        ETAG,
+        /**
+         * The name of the folder.
+         */
+        NAME,
+        /**
+         * The time the folder was created. May be null for some folders such as
+         * root or trash.
+         */
+        CREATED_AT,
+        /**
+         * The time the folder or its contents were last modified. May be null
+         * for some folders such as root or trash.
+         */
+        MODIFIED_AT,
+        /**
+         * The description of the folder.
+         */
+        DESCRIPTION,
+        /**
+         * The folder size in bytes. Be careful parsing this integer, it can easily go into EE notation.
+         *
+         *
+         *@see <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">IEEE754 format</a>
+         */
+        SIZE,
+        /**
+         * The path of folders to this item, starting at the root.
+         */
+        PATH_COLLECTION,
+        /**
+         * The user who created this folder.
+         */
+        CREATED_BY,
+        /**
+         * The user who last modified this folder.
+         */
+        MODIFIED_BY,
+        /**
+         * The time the folder or its contents were put in the trash. May be
+         * null for some folders such as root or trash.
+         */
+        TRASHED_AT,
+        /**
+         * The time the folder or its contents were put in the trash. May be
+         * null for some folders such as root or trash.
+         */
+        PURGED_AT,
+        /**
+         * The time the folder or its contents were originally created
+         * (according to the uploader). May be null for some folders such as
+         * root or trash.
+         */
+        CONTENT_CREATED_AT,
+        /**
+         * The time the folder or its contents were last modified (according to
+         * the uploader). May be null for some folders such as root or trash.
+         */
+        CONTENT_MODIFIED_AT,
+        /**
+         * The user who owns this folder.
+         */
+        OWNED_BY,
+        /**
+         * The shared link for this folder. Null if not set.
+         */
+        SHARED_LINK,
+        /**
+         * The upload email address for this folder. Null if not set.
+         */
+        FOLDER_UPLOAD_EMAIL,
+        /**
+         * The folder that contains this one. May be null for folders such as
+         * root, trash and child folders whose parent is inaccessible.
+         */
+        PARENT,
+        /**
+         * Whether this item is deleted or not.
+         */
+        ITEM_STATUS,
+        /**
+         * A collection of mini file and folder objects contained in this folder.
+         */
+        ITEM_COLLECTION,
+        /**
+         * Whether this folder will be synced by the Box sync clients or not.
+         * Can be synced, not_synced, or partially_synced.
+         */
+        SYNC_STATE,
+        /**
+         * Whether this folder has any collaborators.
+         */
+        HAS_COLLABORATIONS,
+        /**
+         * The permissions that the current user has on this folder. The keys
+         * are can_download, can_upload, can_rename, can_delete, can_share,
+         * can_invite_collaborator, and can_set_share_access. Each value is a
+         * boolean.
+         */
+        PERMISSIONS,
+        /**
+         * All tags applied to this folder.
+         */
+        TAGS,
+        /**
+         * Whether non-owners can invite collaborators to this folder.
+         */
+        CAN_NON_OWNERS_INVITE
+    }
+
+    /**
+     * The available fields (union of {@link BoxFolderFields} and {@link BoxFileFields} fields) that can be used to define the subset of the folder items
+     * information data ({@link BoxFolderItems}) that will be retrieved from box.
+     *
+     * @author Ioannis Nikolaou
+     */
+    public enum BoxFolderItemsFields {
+        /**
+         * For file/folders is ‘file/folder’
+         */
+        TYPE,
+        /**
+         * The file or file/folder’s ID.
+         */
+        ID,
+        /**
+         * A unique ID for use with the /events endpoint. May be null for some
+         * file/folders such as root or trash.
+         */
+        SEQUENCE_ID,
+        /**
+         * A unique string identifying the version of this file/folder. May be null
+         * for some file/folders such as root or trash.
+         */
+        ETAG,
+        /**
+         * The name of the file/file/folder.
+         */
+        NAME,
+        /**
+         * The time the file/folder was created. May be null for some file/folders such as
+         * root or trash.
+         */
+        CREATED_AT,
+        /**
+         * The time the file/folder or its contents were last modified. May be null
+         * for some file/folders such as root or trash.
+         */
+        MODIFIED_AT,
+        /**
+         * The description of the file/folder.
+         */
+        DESCRIPTION,
+        /**
+         * The file/folder size in bytes. Be careful parsing this integer, it can easily go into EE notation.
+         *
+         *
+         *@see <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">IEEE754 format</a>
+         */
+        SIZE,
+        /**
+         * The path of folders to this item, starting at the root.
+         */
+        PATH_COLLECTION,
+        /**
+         * The user who created this file/folder.
+         */
+        CREATED_BY,
+        /**
+         * The user who last modified this file/folder.
+         */
+        MODIFIED_BY,
+        /**
+         * The time the file/folder or its contents were put in the trash. May be
+         * null for some file/folders such as root or trash.
+         */
+        TRASHED_AT,
+        /**
+         * The time the file/folder or its contents were put in the trash. May be
+         * null for some file/folders such as root or trash.
+         */
+        PURGED_AT,
+        /**
+         * The time the file/folder or its contents were originally created
+         * (according to the uploader). May be null for some file/folders such as
+         * root or trash.
+         */
+        CONTENT_CREATED_AT,
+        /**
+         * The time the file/folder or its contents were last modified (according to
+         * the uploader). May be null for some file/folders such as root or trash.
+         */
+        CONTENT_MODIFIED_AT,
+        /**
+         * The user who owns this file/folder.
+         */
+        OWNED_BY,
+        /**
+         * The shared link for this file/folder. Null if not set.
+         */
+        SHARED_LINK,
+        /**
+         * The upload email address for this folder. Null if not set.
+         */
+        FOLDER_UPLOAD_EMAIL,
+        /**
+         * The folder that contains this one. May be null for folders such as
+         * root, trash and child folders whose parent is inaccessible.
+         */
+        PARENT,
+        /**
+         * Whether this item is deleted or not.
+         */
+        ITEM_STATUS,
+        /**
+         * A collection of mini file and folder objects contained in this folder.
+         */
+        ITEM_COLLECTION,
+        /**
+         * Whether this folder will be synced by the Box sync clients or not.
+         * Can be synced, not_synced, or partially_synced.
+         */
+        SYNC_STATE,
+        /**
+         * Whether this folder has any collaborators.
+         */
+        HAS_COLLABORATIONS,
+        /**
+         * The permissions that the current user has on this file/folder. The keys
+         * are can_download, can_upload, can_rename, can_delete, can_share,
+         * can_invite_collaborator, and can_set_share_access. Each value is a
+         * boolean.
+         */
+        PERMISSIONS,
+        /**
+         * All tags applied to this file/folder.
+         */
+        TAGS,
+        /**
+         * Whether non-owners can invite collaborators to this folder.
+         */
+        CAN_NON_OWNERS_INVITE,
+        /**
+         * The sha1 hash of this file.
+         */
+        SHA1,
+        /**
+         * The version of the file.
+         */
+        VERSION_NUMBER,
+        /**
+         * The number of comments on a file.
+         */
+        COMMENT_COUNT,
+        /**
+         * The lock held on the file.
+         */
+        LOCK,
+        /**
+         * Whether the file is a package. Used for Mac Packages used by iWorks.
+         */
+        IS_PACKAGE
+    }
 }
