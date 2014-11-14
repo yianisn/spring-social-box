@@ -35,6 +35,10 @@ public class BoxOperations {
         this.restTemplate = restTemplate;
     }
 
+    protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation) {
+        return boxOperation(httpMethod, operation, null, null, null);
+    }
+
     protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation, List<E> fields, Class<T> domainClass) {
         return boxOperation(httpMethod, operation, fields, null, domainClass);
     }
@@ -55,6 +59,9 @@ public class BoxOperations {
                 return restTemplate.getForObject(uri.build(), domainClass);
             case POST:
                 return restTemplate.postForObject(uri.build(), body, domainClass);
+            case DELETE:
+                restTemplate.delete(uri.build());
+                return null;
             default:
                 throw new UnsupportedOperationException("This http method is not supported by spring-social-box");
         }

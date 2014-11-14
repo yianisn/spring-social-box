@@ -18,14 +18,17 @@ package org.springframework.social.box.api;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
@@ -124,5 +127,28 @@ public class FolderOperationTest extends AbstractBoxTest {
 
         mockRestServiceServer.verify();
     }
+
+    @Test
+    public void deleteFolder() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?recursive=false"))
+        .andExpect(method(DELETE))
+        .andRespond(withNoContent());
+
+        boxTemplate.folderOperations().deleteFolder("123", null);
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void deleteFolderRecursive() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?recursive=true"))
+        .andExpect(method(DELETE))
+        .andRespond(withNoContent());
+
+        boxTemplate.folderOperations().deleteFolder("123", true);
+
+        mockRestServiceServer.verify();
+    }
+
 }
 

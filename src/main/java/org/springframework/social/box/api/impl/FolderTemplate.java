@@ -91,4 +91,15 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return boxOperation(HttpMethod.POST, "folders", fields, jsonBody.toString(), BoxFolder.class);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#deleteFolder(java.lang.String, java.lang.Boolean)
+     */
+    @Override
+    public void deleteFolder(String folderId, Boolean recursive) {
+        if (recursive == null) {
+            recursive = false;
+        }
+        boxOperation(HttpMethod.DELETE, "folders/" + folderId + "?recursive=" + recursive.toString());
+    }
+
 }

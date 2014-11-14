@@ -127,6 +127,17 @@ public interface FolderOperations {
     public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields);
 
     /**
+     * Used to delete a folder.
+     *
+     * @param folderId
+     *            The ID of the parent folder
+     * @param recursive
+     *            Set to true in order to delete folders that have items inside
+     *            of them.
+     */
+    public void deleteFolder(String folderId, Boolean recursive);
+
+    /**
      * The available fields that can be used to define the subset of the folder
      * information data ({@link BoxFolder}) that will be retrieved from box.
      *
