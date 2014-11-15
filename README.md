@@ -6,7 +6,10 @@ spring social adapter for [box](https://box.com)
 
 ### Folder Operations
 
-unsupported
+* [create a new folder](https://developers.box.com/docs/#folders-create-a-new-folder)
+* [update information about a folder](https://developers.box.com/docs/#folders-update-information-about-a-folder)
+  Supported attributes: name, description, tags
+* [delete a folder](https://developers.box.com/docs/#folders-delete-a-folder)
 
 ### File Operations
 
@@ -52,4 +55,4 @@ unsupported
 
 ## License
 
-spring-social-box is released under version 2.0 of the [Apache License].
+spring-social-box is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0.html)
