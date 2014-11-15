@@ -85,7 +85,7 @@ public interface FolderOperations {
      * @param folderId
      *            the folder id
      * @param fields
-     *            A list of the fields of the folder/file information data that will be
+     *            The list of the fields of the folder/file information data that will be
      *            returned.
      *
      * @return a {@link BoxFolderItems} object
@@ -125,6 +125,115 @@ public interface FolderOperations {
      *      href="https://developers.box.com/docs/#folders-create-a-new-folder">https://developers.box.com/docs/#folders-create-a-new-folder</a>
      */
     public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newName
+     *            The new name of the folder
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderName(String folderId, String newName);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newName
+     *            The new name of the folder
+     * @param fields
+     *            The list of the fields of the folder/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderName(String folderId, String newName, List<BoxFolderFields> fields);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newDescription
+     *            The description name of the folder
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderDescription(String folderId, String newDescription);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newDescription
+     *            The description name of the folder
+     * @param fields
+     *            The list of the fields of the folder/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderDescription(String folderId, String newDescription, List<BoxFolderFields> fields);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newTags
+     *            The new tags of the folder
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderTags(String folderId, List<String> newTags);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newTags
+     *            The new tags of the folder
+     * @param fields
+     *            The list of the fields of the folder/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolderTags(String folderId, List<String> newTags, List<BoxFolderFields> fields);
+
+    /**
+     * Used to update information about the folder. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param folderId
+     *            The ID of the folder to be updated
+     * @param newName
+     *            The new name of the folder
+     * @param newDescription
+     *            The description name of the folder
+     * @param newSyncState
+     *            The sync state name of the folder
+     * @param newTags
+     *            The new tags of the folder
+     * @param fields
+     *            The list of the fields of the folder/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFolder updateFolder(String folderId, String newName, String newDescription, List<String> newTags, List<BoxFolderFields> fields);
 
     /**
      * Used to delete a folder.
@@ -424,4 +533,5 @@ public interface FolderOperations {
          */
         IS_PACKAGE
     }
+
 }

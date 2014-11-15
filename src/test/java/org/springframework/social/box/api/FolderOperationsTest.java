@@ -16,19 +16,19 @@
 package org.springframework.social.box.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
@@ -43,7 +43,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
  *
  * @author Ioannis Nikolaou
  */
-public class FolderOperationTest extends AbstractBoxTest {
+public class FolderOperationsTest extends AbstractBoxTest {
 
     BoxTemplate boxTemplate = new BoxTemplate("accessToken");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxTemplate.getRestTemplate());
@@ -124,6 +124,90 @@ public class FolderOperationTest extends AbstractBoxTest {
         .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
 
         boxTemplate.folderOperations().createFolder("A folder", "123", Arrays.asList(BoxFolderFields.PATH_COLLECTION));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderName() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
+        .andExpect(content().string("{\"name\":\"new name\"}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderName("123", "new name");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderNameLimitResponse() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=id"))
+        .andExpect(content().string("{\"name\":\"new name\"}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderName("123", "new name", Arrays.asList(BoxFolderFields.ID));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderDescription() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
+        .andExpect(content().string("{\"description\":\"new description\"}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderDescription("123", "new description");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderDescriptionLimitResponse() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=etag"))
+        .andExpect(content().string("{\"description\":\"new description\"}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderDescription("123", "new description", Arrays.asList(BoxFolderFields.ETAG));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderTags() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
+        .andExpect(content().string("{\"tags\":[\"tag 1\",\"tag 2\"]}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderTags("123", Arrays.asList("tag 1", "tag 2"));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolderTagsLimitResponse() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=content_modified_at"))
+        .andExpect(content().string("{\"tags\":[\"tag 1\"]}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolderTags("123", Arrays.asList("tag 1"), Arrays.asList(BoxFolderFields.CONTENT_MODIFIED_AT));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void updateFolder() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
+        .andExpect(content().string("{\"name\":\"new name\",\"description\":\"\"}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().updateFolder("123", "new name", "", null, null);
 
         mockRestServiceServer.verify();
     }

@@ -17,6 +17,7 @@ package org.springframework.social.box.api.impl;
 
 import java.util.List;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.web.client.RestTemplate;
@@ -59,6 +60,8 @@ public class BoxOperations {
                 return restTemplate.getForObject(uri.build(), domainClass);
             case POST:
                 return restTemplate.postForObject(uri.build(), body, domainClass);
+            case PUT:
+                return restTemplate.exchange(uri.build(), HttpMethod.PUT, new HttpEntity<String>(body), domainClass).getBody();
             case DELETE:
                 restTemplate.delete(uri.build());
                 return null;

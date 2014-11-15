@@ -23,8 +23,12 @@ import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -32,8 +36,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class FolderTemplate extends BoxOperations implements FolderOperations {
 
+    private static final String FOLDER_OPERATION = "folders/";
+    private ObjectMapper mapper;
+
     public FolderTemplate(RestTemplate restTemplate) {
         super(restTemplate);
+        mapper = new ObjectMapper(new JsonFactory());
     }
 
     /* (non-Javadoc)
@@ -49,7 +57,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      */
     @Override
     public BoxFolder getFolderInformation(String folderId, List<BoxFolderFields> fields) {
-        return boxOperation(HttpMethod.GET, "folders/"+folderId, fields, BoxFolder.class);
+        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId, fields, BoxFolder.class);
     }
 
     /* (non-Javadoc)
@@ -65,7 +73,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      */
     @Override
     public BoxFolderItems getFolderItems(String folderId, List<BoxFolderItemsFields> fields) {
-        return boxOperation(HttpMethod.GET, "folders/"+folderId+"/items", fields, BoxFolderItems.class);
+        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId + "/items", fields, BoxFolderItems.class);
     }
 
     /* (non-Javadoc)
@@ -81,14 +89,75 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      */
     @Override
     public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields) {
-        JsonNodeFactory nodeFactory = new JsonNodeFactory(false);
-        ObjectNode jsonBody = nodeFactory.objectNode();
-        ObjectNode parent = nodeFactory.objectNode();
-        parent.put("id", parentId);
-        jsonBody.put("name", name);
-        jsonBody.put("parent", parent);
+        try {
+            return boxOperation(HttpMethod.POST, "folders", fields, mapper.writeValueAsString(new BoxNewFolder(name, new BoxParentItem(parentId))), BoxFolder.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        return boxOperation(HttpMethod.POST, "folders", fields, jsonBody.toString(), BoxFolder.class);
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderName(java.lang.String, java.lang.String)
+     */
+    @Override
+    public BoxFolder updateFolderName(String folderId, String newName) {
+        return updateFolder(folderId, newName, null, null, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderName(java.lang.String, java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolder updateFolderName(String folderId, String newName,
+            List<BoxFolderFields> fields) {
+        return updateFolder(folderId, newName, null, null, fields);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderDescription(java.lang.String, java.lang.String)
+     */
+    @Override
+    public BoxFolder updateFolderDescription(String folderId,
+            String newDescription) {
+        return updateFolder(folderId, null, newDescription, null, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderDescription(java.lang.String, java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolder updateFolderDescription(String folderId,
+            String newDescription, List<BoxFolderFields> fields) {
+        return updateFolder(folderId, null, newDescription, null, fields);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderTags(java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFolder updateFolderTags(String folderId, List<String> newTags) {
+        return updateFolder(folderId, null, null, newTags, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolderTags(java.lang.String, java.util.List, java.util.List)
+     */
+    @Override
+    public BoxFolder updateFolderTags(String folderId, List<String> newTags,
+            List<BoxFolderFields> fields) {
+        return updateFolder(folderId, null, null, newTags, fields);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FolderOperations#updateFolder(java.lang.String, org.springframework.social.box.domain.BoxFolderUpdate)
+     */
+    @Override
+    public BoxFolder updateFolder(String folderId, String newName, String newDescription, List<String> newTags, List<BoxFolderFields> fields) {
+        try {
+            return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields, mapper.writeValueAsString(new BoxFolderUpdate(newName, newDescription, newTags)), BoxFolder.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /* (non-Javadoc)
@@ -99,7 +168,43 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         if (recursive == null) {
             recursive = false;
         }
-        boxOperation(HttpMethod.DELETE, "folders/" + folderId + "?recursive=" + recursive.toString());
+        boxOperation(HttpMethod.DELETE, FOLDER_OPERATION + folderId + "?recursive=" + recursive.toString());
     }
 
+    @JsonInclude(Include.NON_NULL)
+    private class BoxFolderUpdate {
+        @JsonProperty("name")
+        String name;
+        @JsonProperty("description")
+        String description;
+        @JsonProperty("tags")
+        List<String> tags;
+
+        public BoxFolderUpdate(String name, String description, List<String> tags) {
+            this.name = name;
+            this.description = description;
+            this.tags = tags;
+        }
+    }
+
+    private class BoxParentItem {
+        @JsonProperty("id")
+        String id;
+
+        public BoxParentItem(String id) {
+            this.id = id;
+        }
+    }
+
+    private class BoxNewFolder {
+        @JsonProperty("name")
+        String name;
+        @JsonProperty("parent")
+        BoxParentItem parent;
+
+        public BoxNewFolder(String name, BoxParentItem parent) {
+            this.name = name;
+            this.parent = parent;
+        }
+    }
 }
