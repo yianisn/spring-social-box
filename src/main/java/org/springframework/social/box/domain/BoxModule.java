@@ -43,6 +43,7 @@ import org.springframework.social.box.domain.internal.json.BoxPathCollectionMixi
 import org.springframework.social.box.domain.internal.json.BoxPermissionsObjectMixin;
 import org.springframework.social.box.domain.internal.json.BoxSharedLinkMixin;
 import org.springframework.social.box.domain.internal.json.BoxUserMiniMixin;
+import org.springframework.social.box.domain.json.BoxFileMixin;
 import org.springframework.social.box.domain.json.BoxFolderItemsMixin;
 import org.springframework.social.box.domain.json.BoxFolderMixin;
 import org.springframework.social.box.domain.json.BoxUserMixin;
@@ -82,6 +83,7 @@ public class BoxModule extends SimpleModule {
         context.setMixInAnnotations(BoxUserMini.class, BoxUserMiniMixin.class);
 
         context.setMixInAnnotations(BoxFolderItems.class, BoxFolderItemsMixin.class);
+        context.setMixInAnnotations(BoxFile.class, BoxFileMixin.class);
         context.setMixInAnnotations(BoxFolder.class, BoxFolderMixin.class);
         context.setMixInAnnotations(BoxUser.class, BoxUserMixin.class);
     }

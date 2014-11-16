@@ -35,4 +35,10 @@ public interface Box extends ApiBinding {
      * @return {@link FolderOperations}
      */
     FolderOperations folderOperations();
+
+    /**
+     * API for working with box files
+     * @return {@link FileOperations}
+     */
+    FileOperations fileOperations();
 }

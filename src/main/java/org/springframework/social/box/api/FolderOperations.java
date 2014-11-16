@@ -406,7 +406,7 @@ public interface FolderOperations {
          */
         ETAG,
         /**
-         * The name of the file/file/folder.
+         * The name of the file/folder.
          */
         NAME,
         /**
@@ -528,6 +528,12 @@ public interface FolderOperations {
          * The lock held on the file.
          */
         LOCK,
+        /**
+         * Indicates the suffix, when available, on the file. By default, set to
+         * an empty string. The suffix usually indicates the encoding (file
+         * format) of the file contents or usage.
+         */
+        EXTENSION,
         /**
          * Whether the file is a package. Used for Mac Packages used by iWorks.
          */

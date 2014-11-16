@@ -17,6 +17,7 @@ package org.springframework.social.box.api.impl;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.box.api.Box;
+import org.springframework.social.box.api.FileOperations;
 import org.springframework.social.box.api.FolderOperations;
 import org.springframework.social.box.api.UserOperations;
 import org.springframework.social.box.domain.BoxModule;
@@ -37,6 +38,8 @@ public class BoxTemplate extends AbstractOAuth2ApiBinding implements Box {
     private UserOperations userOperations;
 
     private FolderOperations folderOperations;
+
+    private FileOperations fileOperations;
 
     /**
      * Create a new instance of BoxTemplate using a given access token.
@@ -64,6 +67,14 @@ public class BoxTemplate extends AbstractOAuth2ApiBinding implements Box {
     }
 
     /* (non-Javadoc)
+     * @see org.springframework.social.box.api.Box#folderOperations()
+     */
+    @Override
+    public FileOperations fileOperations() {
+        return fileOperations;
+    }
+
+    /* (non-Javadoc)
      * @see org.springframework.social.oauth2.AbstractOAuth2ApiBinding#getJsonMessageConverter()
      */
     @Override
@@ -86,6 +97,7 @@ public class BoxTemplate extends AbstractOAuth2ApiBinding implements Box {
     private void initSubApis() {
         userOperations = new UserTemplate(getRestTemplate());
         folderOperations = new FolderTemplate(getRestTemplate());
+        fileOperations = new FileTemplate(getRestTemplate());
     }
 
 }
