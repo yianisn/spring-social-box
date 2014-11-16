@@ -1,4 +1,4 @@
-# spring-social-box
+# spring-social-box [![Build Status](https://travis-ci.org/yianisn/spring-social-box.svg?branch=develop)](https://travis-ci.org/yianisn/spring-social-box)
 
 spring social adapter for [box](https://box.com)
 
