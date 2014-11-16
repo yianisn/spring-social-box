@@ -148,7 +148,7 @@ public interface FolderOperations {
      * @param newName
      *            The new name of the folder
      * @param fields
-     *            The list of the fields of the folder/file information data that will be
+     *            The list of the fields of the folder information data that will be
      *            returned.
      * @return The updated {@link BoxFolder} is returned if no name collisions
      *         occur.
@@ -163,8 +163,7 @@ public interface FolderOperations {
      *            The ID of the folder to be updated
      * @param newDescription
      *            The description name of the folder
-     * @return The updated {@link BoxFolder} is returned if no name collisions
-     *         occur.
+     * @return The updated {@link BoxFolder} is returned
      */
     public BoxFolder updateFolderDescription(String folderId, String newDescription);
 
@@ -177,10 +176,9 @@ public interface FolderOperations {
      * @param newDescription
      *            The description name of the folder
      * @param fields
-     *            The list of the fields of the folder/file information data that will be
+     *            The list of the fields of the folder information data that will be
      *            returned.
-     * @return The updated {@link BoxFolder} is returned if no name collisions
-     *         occur.
+     * @return The updated {@link BoxFolder} is returned
      */
     public BoxFolder updateFolderDescription(String folderId, String newDescription, List<BoxFolderFields> fields);
 
@@ -192,8 +190,7 @@ public interface FolderOperations {
      *            The ID of the folder to be updated
      * @param newTags
      *            The new tags of the folder
-     * @return The updated {@link BoxFolder} is returned if no name collisions
-     *         occur.
+     * @return The updated {@link BoxFolder} is returned
      */
     public BoxFolder updateFolderTags(String folderId, List<String> newTags);
 
@@ -208,8 +205,7 @@ public interface FolderOperations {
      * @param fields
      *            The list of the fields of the folder/file information data that will be
      *            returned.
-     * @return The updated {@link BoxFolder} is returned if no name collisions
-     *         occur.
+     * @return The updated {@link BoxFolder} is returned
      */
     public BoxFolder updateFolderTags(String folderId, List<String> newTags, List<BoxFolderFields> fields);
 
@@ -223,12 +219,10 @@ public interface FolderOperations {
      *            The new name of the folder
      * @param newDescription
      *            The description name of the folder
-     * @param newSyncState
-     *            The sync state name of the folder
      * @param newTags
      *            The new tags of the folder
      * @param fields
-     *            The list of the fields of the folder/file information data that will be
+     *            The list of the fields of the folder information data that will be
      *            returned.
      * @return The updated {@link BoxFolder} is returned if no name collisions
      *         occur.

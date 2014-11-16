@@ -18,6 +18,7 @@ package org.springframework.social.box.api.impl;
 import java.util.List;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.box.api.FolderOperations;
 import org.springframework.social.box.domain.BoxFolder;
 import org.springframework.social.box.domain.BoxFolderItems;
@@ -92,7 +93,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         try {
             return boxOperation(HttpMethod.POST, "folders", fields, mapper.writeValueAsString(new BoxNewFolder(name, new BoxParentItem(parentId))), BoxFolder.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
         }
     }
 
@@ -156,7 +157,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         try {
             return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields, mapper.writeValueAsString(new BoxFolderUpdate(newName, newDescription, newTags)), BoxFolder.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
         }
     }
 

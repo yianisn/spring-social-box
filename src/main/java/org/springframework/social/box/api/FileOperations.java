@@ -54,6 +54,110 @@ public interface FileOperations {
     public BoxFile getFileInformation(String fileId, List<BoxFileFields> fields);
 
     /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newName
+     *            The new name of the file
+     * @return The updated {@link BoxFile} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFile updateFileName(String fileId, String newName);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newName
+     *            The new name of the file
+     * @param fields
+     *            The list of the fields of the file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFile} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFile updateFileName(String fileId, String newName, List<BoxFileFields> fields);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newDescription
+     *            The description name of the file
+     * @return The updated {@link BoxFile} is returned
+     */
+    public BoxFile updateFileDescription(String fileId, String newDescription);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newDescription
+     *            The description name of the file
+     * @param fields
+     *            The list of the fields of the file/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFile} is returned
+     */
+    public BoxFile updateFileDescription(String fileId, String newDescription, List<BoxFileFields> fields);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newTags
+     *            The new tags of the file
+     * @return The updated {@link BoxFile} is returned
+     */
+    public BoxFile updateFileTags(String fileId, List<String> newTags);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newTags
+     *            The new tags of the file
+     * @param fields
+     *            The list of the fields of the file/file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFile} is returned
+     */
+    public BoxFile updateFileTags(String fileId, List<String> newTags, List<BoxFileFields> fields);
+
+    /**
+     * Used to update information about the file. To leave an attribute
+     * unchanged set it to null.
+     *
+     * @param fileId
+     *            The ID of the file to be updated
+     * @param newName
+     *            The new name of the file
+     * @param newDescription
+     *            The description name of the file
+     * @param newTags
+     *            The new tags of the file
+     * @param fields
+     *            The list of the fields of the file information data that will be
+     *            returned.
+     * @return The updated {@link BoxFile} is returned if no name collisions
+     *         occur.
+     */
+    public BoxFile updateFile(String fileId, String newName, String newDescription, List<String> newTags, List<BoxFileFields> fields);
+
+
+    /**
      * The available fields that can be used to define the subset of the file
      * information data ({@link BoxFile}) that will be retrieved from box.
      *
@@ -92,7 +196,6 @@ public interface FileOperations {
         DESCRIPTION,
         /**
          * The file size in bytes. Be careful parsing this integer, it can easily go into EE notation.
-         *
          *
          *@see <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">IEEE754 format</a>
          */
@@ -149,12 +252,7 @@ public interface FileOperations {
          */
         SHARED_LINK,
         /**
-         * The upload email address for this folder. Null if not set.
-         */
-        FOLDER_UPLOAD_EMAIL,
-        /**
-         * The folder that contains this one. May be null for folders such as
-         * root, trash and child folders whose parent is inaccessible.
+         * The folder that contains this one.
          */
         PARENT,
         /**
