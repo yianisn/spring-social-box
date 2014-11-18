@@ -17,6 +17,7 @@ package org.springframework.social.box.api;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.social.box.domain.BoxFile;
 
 
@@ -156,6 +157,40 @@ public interface FileOperations {
      */
     public BoxFile updateFile(String fileId, String newName, String newDescription, List<String> newTags, List<BoxFileFields> fields);
 
+    /**
+     * Use the Uploads API to allow users to add a new file. The user can then
+     * upload a file by specifying the destination folder for the file. If the
+     * user provides a file name that already exists in the destination folder,
+     * the user will receive an error.
+     *
+     * @param name
+     *            The file name
+     * @param parentId
+     *            The id of the parent folder
+     * @param file
+     *            The file as a Spring IO {@link Resource}
+     * @return A {@link BoxFile} is returned if no name collisions occur.
+     */
+    public BoxFile uploadFile(String name, String parentId, Resource file);
+
+    /**
+     * Use the Uploads API to allow users to add a new file. The user can then
+     * upload a file by specifying the destination folder for the file. If the
+     * user provides a file name that already exists in the destination folder,
+     * the user will receive an error.
+     *
+     * @param name
+     *            The file name
+     * @param parentId
+     *            The id of the parent folder
+     * @param file
+     *            The file as a Spring IO {@link Resource}
+     * @param fields
+     *            The list of the fields of the file information data that will
+     *            be returned. *
+     * @return A {@link BoxFile} is returned if no name collisions occur.
+     */
+    public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields);
 
     /**
      * The available fields that can be used to define the subset of the file

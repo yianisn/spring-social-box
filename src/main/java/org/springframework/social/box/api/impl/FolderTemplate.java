@@ -91,7 +91,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
     @Override
     public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields) {
         try {
-            return boxOperation(HttpMethod.POST, "folders", fields, mapper.writeValueAsString(new BoxNewFolder(name, new BoxParentItem(parentId))), BoxFolder.class);
+            return boxOperation(HttpMethod.POST, "folders", fields, mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), BoxFolder.class);
         } catch (JsonProcessingException e) {
             throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
         }
@@ -185,27 +185,6 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
             this.name = name;
             this.description = description;
             this.tags = tags;
-        }
-    }
-
-    private class BoxParentItem {
-        @JsonProperty("id")
-        String id;
-
-        public BoxParentItem(String id) {
-            this.id = id;
-        }
-    }
-
-    private class BoxNewFolder {
-        @JsonProperty("name")
-        String name;
-        @JsonProperty("parent")
-        BoxParentItem parent;
-
-        public BoxNewFolder(String name, BoxParentItem parent) {
-            this.name = name;
-            this.parent = parent;
         }
     }
 }

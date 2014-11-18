@@ -17,6 +17,7 @@ package org.springframework.social.box.api.impl;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.box.api.FileOperations;
@@ -116,7 +117,27 @@ public class FileTemplate extends BoxOperations implements FileOperations {
         try {
             return boxOperation(HttpMethod.PUT, FILE_OPERATION + fileId, fields, mapper.writeValueAsString(new BoxFileUpdate(newName, newDescription, newTags)), BoxFile.class);
         } catch (JsonProcessingException e) {
-            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FileOperations#uploadFile(java.lang.String, java.lang.String, byte[])
+     */
+    @Override
+    public BoxFile uploadFile(String name, String parentId, Resource file) {
+        return uploadFile(name, parentId, file, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FileOperations#uploadFile(java.lang.String, java.lang.String, byte[], java.util.List)
+     */
+    @Override
+    public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields) {
+        try {
+            return boxFileUploadOperation(mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), file, fields, BoxFile.class);
+        } catch (JsonProcessingException e) {
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
         }
     }
 

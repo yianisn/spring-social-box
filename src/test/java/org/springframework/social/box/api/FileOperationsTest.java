@@ -15,11 +15,14 @@
  */
 package org.springframework.social.box.api;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -27,6 +30,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.AbstractBoxTest;
 import org.springframework.social.box.api.FileOperations.BoxFileFields;
@@ -153,6 +157,36 @@ public class FileOperationsTest extends AbstractBoxTest {
         mockRestServiceServer.verify();
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void uploadFile() {
+        mockRestServiceServer.expect(requestTo("https://upload.box.com/api/2.0/files/content"))
+        .andExpect(header("Content-Type", containsString("multipart/form-data")))
+        .andExpect(content().string(containsString("{\"name\":\"filename\","
+                                                + "\"parent\":{\"id\":\"123\"}}")))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
 
+        Resource file = null;
+        boxTemplate.fileOperations().uploadFile("filename", "123", file);
+
+        mockRestServiceServer.verify();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void uploadFileLimitResponse() {
+        mockRestServiceServer.expect(requestTo("https://upload.box.com/api/2.0/files/content?fields=id"))
+        .andExpect(header("Content-Type", containsString("multipart/form-data")))
+        .andExpect(content().string(containsString("{\"name\":\"filename\","
+                                                + "\"parent\":{\"id\":\"123\"}}")))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
+
+        Resource file = null;
+        boxTemplate.fileOperations().uploadFile("filename", "123", file, Arrays.asList(BoxFileFields.ID));
+
+        mockRestServiceServer.verify();
+    }
 }
 
