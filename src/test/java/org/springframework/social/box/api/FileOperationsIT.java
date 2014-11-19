@@ -16,16 +16,22 @@
 package org.springframework.social.box.api;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.social.OperationNotPermittedException;
+import org.springframework.social.ResourceNotFoundException;
+import org.springframework.social.box.api.FileOperations.BoxFileFields;
 import org.springframework.social.box.connect.BoxConnectionFactory;
+import org.springframework.social.box.domain.BoxFile;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.oauth2.AccessGrant;
 
@@ -50,14 +56,28 @@ public class FileOperationsIT {
     }
 
     @Test
-    public void uploadFile() {
-        fileOperations.uploadFile("test", "0", new ClassPathResource("unknown"));
+    public void uploadFetchDeleteFile() {
+        BoxFile boxFile = fileOperations.uploadFile("box_cyan.png", "0", new ClassPathResource("box_cyan.png"), Arrays.asList(BoxFileFields.ID));
+        assertNotNull(boxFile.getId());
+        assertNull(boxFile.getName());
+
+        BoxFile boxFileAgain = fileOperations.getFileInformation(boxFile.getId(), Arrays.asList(BoxFileFields.NAME));
+        assertNotNull(boxFileAgain.getName());
+
+        fileOperations.deleteFile(boxFile.getId());
+
+        try {
+            fileOperations.getFileInformation(boxFile.getId());
+        } catch (Exception e) {
+            assertThat(e, instanceOf(ResourceNotFoundException.class));
+        }
+
     }
 
     @Test
     public void uploadEmptyFile() {
         try {
-            fileOperations.uploadFile("test1", "0", null);
+            fileOperations.uploadFile("test", "0", null);
         } catch (Exception e) {
             assertThat(e, instanceOf(OperationNotPermittedException.class));
         }

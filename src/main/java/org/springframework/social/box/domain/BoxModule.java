@@ -19,6 +19,7 @@ import org.springframework.social.box.domain.internal.BoxEnterpriseMini;
 import org.springframework.social.box.domain.internal.BoxFileMini;
 import org.springframework.social.box.domain.internal.BoxFilePermissions;
 import org.springframework.social.box.domain.internal.BoxFileSystemObject;
+import org.springframework.social.box.domain.internal.BoxFileUploadResult;
 import org.springframework.social.box.domain.internal.BoxFolderPermissions;
 import org.springframework.social.box.domain.internal.BoxFolderUploadEmail;
 import org.springframework.social.box.domain.internal.BoxIdentifiableObject;
@@ -33,6 +34,7 @@ import org.springframework.social.box.domain.internal.json.BoxEnterpriseMiniMixi
 import org.springframework.social.box.domain.internal.json.BoxFileMiniMixin;
 import org.springframework.social.box.domain.internal.json.BoxFilePermissionsMixin;
 import org.springframework.social.box.domain.internal.json.BoxFileSystemObjectMixin;
+import org.springframework.social.box.domain.internal.json.BoxFileUploadResultMixin;
 import org.springframework.social.box.domain.internal.json.BoxFolderPermissionsMixin;
 import org.springframework.social.box.domain.internal.json.BoxFolderUploadEmailMixin;
 import org.springframework.social.box.domain.internal.json.BoxIdentifiableObjectMixin;
@@ -70,6 +72,7 @@ public class BoxModule extends SimpleModule {
         context.setMixInAnnotations(BoxFilePermissions.class, BoxFilePermissionsMixin.class);
         context.setMixInAnnotations(BoxFileSystemObject.class, BoxFileSystemObjectMixin.class);
         //BoxFolderMini
+        context.setMixInAnnotations(BoxFileUploadResult.class, BoxFileUploadResultMixin.class);
         context.setMixInAnnotations(BoxFolderPermissions.class, BoxFolderPermissionsMixin.class);
         context.setMixInAnnotations(BoxFolderUploadEmail.class, BoxFolderUploadEmailMixin.class);
         context.setMixInAnnotations(BoxIdentifiableObject.class, BoxIdentifiableObjectMixin.class);

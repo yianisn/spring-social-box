@@ -27,9 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -38,11 +36,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class FileTemplate extends BoxOperations implements FileOperations {
 
     private static final String FILE_OPERATION = "files/";
-    private ObjectMapper mapper;
 
     public FileTemplate(RestTemplate restTemplate) {
         super(restTemplate);
-        mapper = new ObjectMapper(new JsonFactory());
     }
 
     /* (non-Javadoc)
@@ -135,10 +131,18 @@ public class FileTemplate extends BoxOperations implements FileOperations {
     @Override
     public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields) {
         try {
-            return boxFileUploadOperation(mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), file, fields, BoxFile.class);
+            return boxFileUploadOperation(mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), file, fields);
         } catch (JsonProcessingException e) {
             throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FileOperations#deleteFile(java.lang.String)
+     */
+    @Override
+    public void deleteFile(String fileId) {
+        boxOperation(HttpMethod.DELETE, FILE_OPERATION + fileId);
     }
 
     @JsonInclude(Include.NON_NULL)
@@ -156,4 +160,5 @@ public class FileTemplate extends BoxOperations implements FileOperations {
             this.tags = tags;
         }
     }
+
 }

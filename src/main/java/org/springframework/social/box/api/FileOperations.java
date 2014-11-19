@@ -193,6 +193,14 @@ public interface FileOperations {
     public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields);
 
     /**
+     * Discards a file to the trash.
+     *
+     * @param fileId
+     *            The ID of the folder
+     */
+    public void deleteFile(String fileId);
+
+    /**
      * The available fields that can be used to define the subset of the file
      * information data ({@link BoxFile}) that will be retrieved from box.
      *

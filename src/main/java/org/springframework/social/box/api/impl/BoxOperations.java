@@ -22,12 +22,18 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.social.ApiException;
+import org.springframework.social.box.api.FileOperations.BoxFileFields;
+import org.springframework.social.box.domain.BoxFile;
+import org.springframework.social.box.domain.internal.BoxFileUploadResult;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -38,10 +44,12 @@ public class BoxOperations {
     static final String BOX_API_URL = "https://api.box.com/2.0/";
     static final String BOX_FILE_UPLOAD_API_URL = "https://upload.box.com/api/2.0/files/content";
 
+    protected final ObjectMapper mapper;
     protected final RestTemplate restTemplate;
 
     protected BoxOperations(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+        mapper = new ObjectMapper(new JsonFactory());
     }
 
     protected <T, E extends Enum<E>> T boxOperation(HttpMethod httpMethod, String operation) {
@@ -71,7 +79,7 @@ public class BoxOperations {
         }
     }
 
-    protected <T, E extends Enum<E>> T boxFileUploadOperation(String attributes, Resource file, List<E> fields, Class<T> domainClass) {
+    protected BoxFile boxFileUploadOperation(String attributes, Resource file, List<BoxFileFields> fields) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -83,7 +91,14 @@ public class BoxOperations {
         URIBuilder uriBuilder = URIBuilder.fromUri(BOX_FILE_UPLOAD_API_URL);
         appendFieldsParameter(fields, uriBuilder);
 
-        return restTemplate.postForObject(uriBuilder.build(), httpEntity, domainClass);
+        BoxFileUploadResult boxFileUploadResult = restTemplate.postForObject(uriBuilder.build(), httpEntity, BoxFileUploadResult.class);
+
+        if (boxFileUploadResult.getTotalCount() == 1) {
+            return boxFileUploadResult.getEntries().get(0);
+        }
+        else {
+            throw new ApiException(BOX_PROVIDER_NAME, "Could not verify the file was uploaded");
+        }
     }
 
     private <E extends Enum<E>> void appendFieldsParameter(List<E> fields, URIBuilder uriBuilder) {
@@ -117,4 +132,5 @@ public class BoxOperations {
             this.parent = parent;
         }
     }
+
 }

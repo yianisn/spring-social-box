@@ -10,17 +10,17 @@ public class BoxFileMixin extends BoxFileSystemObjectMixin {
     @JsonProperty("sha1")
     String sha1;
     @JsonProperty("path_collection")
-	BoxPathCollection pathCollection;
+    BoxPathCollection pathCollection;
     @JsonProperty("item_status")
-	String itemStatus;
+    String itemStatus;
     @JsonProperty("version_number")
-	String versionNumber;
+    String versionNumber;
     @JsonProperty("comment_count")
-	Integer commentCount;
+    Integer commentCount;
     @JsonProperty("permissions")
-	BoxFilePermissions permissions;
+    BoxFilePermissions permissions;
     @JsonProperty("extension")
-	String extension;
+    String extension;
     @JsonProperty("is_package")
-	Boolean isPackage;
+    Boolean isPackage;
 };

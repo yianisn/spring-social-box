@@ -233,7 +233,7 @@ public interface FolderOperations {
      * Used to delete a folder.
      *
      * @param folderId
-     *            The ID of the parent folder
+     *            The ID of the folder
      * @param recursive
      *            Set to true in order to delete folders that have items inside
      *            of them.

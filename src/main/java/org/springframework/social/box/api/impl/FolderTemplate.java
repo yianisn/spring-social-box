@@ -27,9 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -38,11 +36,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class FolderTemplate extends BoxOperations implements FolderOperations {
 
     private static final String FOLDER_OPERATION = "folders/";
-    private ObjectMapper mapper;
 
     public FolderTemplate(RestTemplate restTemplate) {
         super(restTemplate);
-        mapper = new ObjectMapper(new JsonFactory());
     }
 
     /* (non-Javadoc)

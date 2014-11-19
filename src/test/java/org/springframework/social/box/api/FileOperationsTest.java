@@ -18,6 +18,7 @@ package org.springframework.social.box.api;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.util.Arrays;
@@ -165,12 +167,13 @@ public class FileOperationsTest extends AbstractBoxTest {
         .andExpect(content().string(containsString("{\"name\":\"filename\","
                                                 + "\"parent\":{\"id\":\"123\"}}")))
         .andExpect(method(POST))
-        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
+        .andRespond(withSuccess(jsonResource("uploadFileBoxExample"), MediaType.APPLICATION_JSON));
 
         Resource file = null;
-        boxTemplate.fileOperations().uploadFile("filename", "123", file);
+        BoxFile boxFile = boxTemplate.fileOperations().uploadFile("filename", "123", file);
 
         mockRestServiceServer.verify();
+        assertEquals("3", boxFile.getEtag());
     }
 
     @SuppressWarnings("unchecked")
@@ -181,10 +184,22 @@ public class FileOperationsTest extends AbstractBoxTest {
         .andExpect(content().string(containsString("{\"name\":\"filename\","
                                                 + "\"parent\":{\"id\":\"123\"}}")))
         .andExpect(method(POST))
-        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
+        .andRespond(withSuccess(jsonResource("uploadFileBoxExample"), MediaType.APPLICATION_JSON));
 
         Resource file = null;
-        boxTemplate.fileOperations().uploadFile("filename", "123", file, Arrays.asList(BoxFileFields.ID));
+        BoxFile boxFile = boxTemplate.fileOperations().uploadFile("filename", "123", file, Arrays.asList(BoxFileFields.ID));
+
+        mockRestServiceServer.verify();
+        assertEquals("3", boxFile.getSequenceId());
+    }
+
+    @Test
+    public void deleteFile() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123"))
+        .andExpect(method(DELETE))
+        .andRespond(withNoContent());
+
+        boxTemplate.fileOperations().deleteFile("123");
 
         mockRestServiceServer.verify();
     }
