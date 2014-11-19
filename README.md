@@ -53,8 +53,8 @@ unsupported
 
 ## exception handling
 
-* OAuth2 operations will throw SopringSocial exceptions
-* Box API operation will throw SopringSocial exceptions
+* OAuth2 operations will throw SpringSocial exceptions
+* Box API operations will throw SpringSocial exceptions
 
 ## License
 
