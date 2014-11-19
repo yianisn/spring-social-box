@@ -13,7 +13,10 @@ spring social adapter for [box](https://box.com)
 
 ### File Operations
 
-unsupported
+* [upload a new file](https://developers.box.com/docs/#files-upload-a-file)
+* [update information about a file](https://developers.box.com/docs/#files-update-a-files-information)
+  Supported attributes: name, description, tags
+* [delete a file](https://developers.box.com/docs/#files-delete-a-file)
 
 ### Comments Operations
 
