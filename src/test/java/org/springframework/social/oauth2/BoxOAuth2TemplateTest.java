@@ -30,7 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.RejectedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
-import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.connect.BoxOAuth2Template;
 import org.springframework.test.web.client.MockRestServiceServer;
 
@@ -38,7 +38,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
  *
  * @author Ioannis Nikolaou
  */
-public class BoxOAuth2TemplateTest extends AbstractBoxTest{
+public class BoxOAuth2TemplateTest extends BoxTest{
     BoxOAuth2Template boxOAuth2Template = new BoxOAuth2Template("myClientId", "myClientSecret");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxOAuth2Template.getRestTemplate());
 

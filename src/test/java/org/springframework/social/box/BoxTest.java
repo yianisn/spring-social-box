@@ -22,7 +22,7 @@ import org.springframework.core.io.Resource;
  *
  * @author Ioannis Nikolaou
  */
-public class AbstractBoxTest {
+public abstract class BoxTest {
 
     protected Resource jsonResource(String filename) {
         return new ClassPathResource(filename + ".json", getClass());

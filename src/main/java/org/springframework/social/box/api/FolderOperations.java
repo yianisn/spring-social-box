@@ -230,6 +230,31 @@ public interface FolderOperations {
     public BoxFolder updateFolder(String folderId, String newName, String newDescription, List<String> newTags, List<BoxFolderFields> fields);
 
     /**
+     * Used to move a folder.
+     *
+     * @param folderId
+     *            The id of the folder to be moved
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @return The updated {@link BoxFolder} object
+     */
+    public BoxFolder moveFolder(String folderId, String newParentFolderId);
+
+    /**
+     * Used to move a folder and return only a subset of the new folder object information
+     *
+     * @param folderId
+     *            The id of the folder to be moved
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @param fields
+     *            The list of the fields of the {@link BoxFolder} object that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} object
+     */
+    public BoxFolder moveFolder(String folderId, String newParentFolderId, List<BoxFolderFields> fields);
+
+    /**
      * Used to delete a folder.
      *
      * @param folderId

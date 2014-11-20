@@ -41,23 +41,35 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         super(restTemplate);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#getFolderInformation(java.lang.String)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
      */
     @Override
     public BoxFolder getFolderInformation(String folderId) {
         return getFolderInformation(folderId, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#getFolderInformation(java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String, java.util.List)
      */
     @Override
-    public BoxFolder getFolderInformation(String folderId, List<BoxFolderFields> fields) {
-        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId, fields, BoxFolder.class);
+    public BoxFolder getFolderInformation(String folderId,
+            List<BoxFolderFields> fields) {
+        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId,
+                fields, BoxFolder.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.springframework.social.box.api.FolderOperations#getFolderItems()
      */
     @Override
@@ -65,44 +77,70 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return getFolderItems(folderId, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#getFolderItems(java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderItems(java
+     * .lang.String, java.util.List)
      */
     @Override
-    public BoxFolderItems getFolderItems(String folderId, List<BoxFolderItemsFields> fields) {
-        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId + "/items", fields, BoxFolderItems.class);
+    public BoxFolderItems getFolderItems(String folderId,
+            List<BoxFolderItemsFields> fields) {
+        return boxOperation(HttpMethod.GET, FOLDER_OPERATION + folderId
+                + "/items", fields, BoxFolderItems.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#createFolder(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#createFolder(java
+     * .lang.String, java.lang.String)
      */
     @Override
     public BoxFolder createFolder(String name, String parentId) {
         return createFolder(name, parentId, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#createFolder(java.lang.String, java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#createFolder(java
+     * .lang.String, java.lang.String, java.util.List)
      */
     @Override
-    public BoxFolder createFolder(String name, String parentId, List<BoxFolderFields> fields) {
+    public BoxFolder createFolder(String name, String parentId,
+            List<BoxFolderFields> fields) {
         try {
-            return boxOperation(HttpMethod.POST, "folders", fields, mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), BoxFolder.class);
+            return boxOperation(HttpMethod.POST, "folders", fields,
+                    mapper.writeValueAsString(new BoxNewItem(name, parentId)),
+                    BoxFolder.class);
         } catch (JsonProcessingException e) {
-            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME,
+                    "spring-social-bx internal error", e);
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderName(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderName(
+     * java.lang.String, java.lang.String)
      */
     @Override
     public BoxFolder updateFolderName(String folderId, String newName) {
         return updateFolder(folderId, newName, null, null, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderName(java.lang.String, java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderName(
+     * java.lang.String, java.lang.String, java.util.List)
      */
     @Override
     public BoxFolder updateFolderName(String folderId, String newName,
@@ -110,8 +148,12 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return updateFolder(folderId, newName, null, null, fields);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderDescription(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderDescription
+     * (java.lang.String, java.lang.String)
      */
     @Override
     public BoxFolder updateFolderDescription(String folderId,
@@ -119,8 +161,12 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return updateFolder(folderId, null, newDescription, null, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderDescription(java.lang.String, java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderDescription
+     * (java.lang.String, java.lang.String, java.util.List)
      */
     @Override
     public BoxFolder updateFolderDescription(String folderId,
@@ -128,16 +174,24 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return updateFolder(folderId, null, newDescription, null, fields);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderTags(java.lang.String, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderTags(
+     * java.lang.String, java.util.List)
      */
     @Override
     public BoxFolder updateFolderTags(String folderId, List<String> newTags) {
         return updateFolder(folderId, null, null, newTags, null);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolderTags(java.lang.String, java.util.List, java.util.List)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolderTags(
+     * java.lang.String, java.util.List, java.util.List)
      */
     @Override
     public BoxFolder updateFolderTags(String folderId, List<String> newTags,
@@ -145,27 +199,71 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         return updateFolder(folderId, null, null, newTags, fields);
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#updateFolder(java.lang.String, org.springframework.social.box.domain.BoxFolderUpdate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#updateFolder(java
+     * .lang.String, org.springframework.social.box.domain.BoxFolderUpdate)
      */
     @Override
-    public BoxFolder updateFolder(String folderId, String newName, String newDescription, List<String> newTags, List<BoxFolderFields> fields) {
+    public BoxFolder updateFolder(String folderId, String newName,
+            String newDescription, List<String> newTags,
+            List<BoxFolderFields> fields) {
         try {
-            return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields, mapper.writeValueAsString(new BoxFolderUpdate(newName, newDescription, newTags)), BoxFolder.class);
+            return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields,
+                    mapper.writeValueAsString(new BoxFolderUpdate(newName, newDescription, newTags)),
+                    BoxFolder.class);
         } catch (JsonProcessingException e) {
-            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-bx internal error", e);
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FolderOperations#deleteFolder(java.lang.String, java.lang.Boolean)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#deleteFolder(java
+     * .lang.String, java.lang.Boolean)
      */
     @Override
     public void deleteFolder(String folderId, Boolean recursive) {
         if (recursive == null) {
             recursive = false;
         }
-        boxOperation(HttpMethod.DELETE, FOLDER_OPERATION + folderId + "?recursive=" + recursive.toString());
+        boxOperation(HttpMethod.DELETE, FOLDER_OPERATION + folderId
+                + "?recursive=" + recursive.toString());
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
+     */
+    @Override
+    public BoxFolder moveFolder(String folderId, String newParentFolderId) {
+        return moveFolder(folderId, newParentFolderId, null);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
+     */
+    @Override
+    public BoxFolder moveFolder(String folderId, String newParentFolderId,
+            List<BoxFolderFields> fields) {
+        try {
+            return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields,
+                    mapper.writeValueAsString(new BoxNewItem(null, newParentFolderId)),
+                    BoxFolder.class);
+        } catch (JsonProcessingException e) {
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
+        }
     }
 
     @JsonInclude(Include.NON_NULL)
@@ -177,10 +275,12 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
         @JsonProperty("tags")
         List<String> tags;
 
-        public BoxFolderUpdate(String name, String description, List<String> tags) {
+        public BoxFolderUpdate(String name, String description,
+                List<String> tags) {
             this.name = name;
             this.description = description;
             this.tags = tags;
         }
     }
+
 }

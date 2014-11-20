@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.springframework.social.ApiException;
-import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.api.Box;
 import org.springframework.social.box.api.UserOperations;
 import org.springframework.social.box.api.UserOperations.BoxUserFields;
@@ -37,7 +37,7 @@ import org.springframework.social.connect.UserProfile;
  *
  * @author Ioannis Nikolaou
  */
-public class BoxAdapterTest extends AbstractBoxTest {
+public class BoxAdapterTest extends BoxTest {
 
     private BoxAdapter apiAdapter = new BoxAdapter();
 

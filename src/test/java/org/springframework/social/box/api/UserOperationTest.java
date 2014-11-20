@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.api.UserOperations.BoxUserFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.box.domain.BoxUser;
@@ -41,7 +41,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
  *
  * @author Ioannis Nikolaou
  */
-public class UserOperationTest extends AbstractBoxTest {
+public class UserOperationTest extends BoxTest {
 
     BoxTemplate boxTemplate = new BoxTemplate("accessToken");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxTemplate.getRestTemplate());

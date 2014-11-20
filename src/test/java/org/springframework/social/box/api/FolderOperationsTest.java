@@ -30,7 +30,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.FolderOperations.BoxFolderItemsFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
@@ -43,7 +43,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
  *
  * @author Ioannis Nikolaou
  */
-public class FolderOperationsTest extends AbstractBoxTest {
+public class FolderOperationsTest extends BoxTest {
 
     BoxTemplate boxTemplate = new BoxTemplate("accessToken");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxTemplate.getRestTemplate());
@@ -234,5 +234,28 @@ public class FolderOperationsTest extends AbstractBoxTest {
         mockRestServiceServer.verify();
     }
 
+    @Test
+    public void moveFolderBoxExampleData() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"to\"}}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("createFolderBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().moveFolder("from", "to");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void moveFolderSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from?fields=id"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"to\"}}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().moveFolder("from", "to", Arrays.asList(BoxFolderFields.ID));
+
+        mockRestServiceServer.verify();
+    }
 }
 

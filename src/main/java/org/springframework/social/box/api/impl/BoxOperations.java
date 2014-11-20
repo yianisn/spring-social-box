@@ -31,6 +31,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -121,15 +123,16 @@ public class BoxOperations {
         }
     }
 
+    @JsonInclude(Include.NON_NULL)
     protected class BoxNewItem {
         @JsonProperty("name")
         String name;
         @JsonProperty("parent")
         BoxParentItem parent;
 
-        public BoxNewItem(String name, BoxParentItem parent) {
+        public BoxNewItem(String name, String parentId) {
             this.name = name;
-            this.parent = parent;
+            this.parent = new BoxParentItem(parentId);
         }
     }
 

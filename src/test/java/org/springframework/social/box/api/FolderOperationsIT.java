@@ -16,14 +16,18 @@
 package org.springframework.social.box.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.social.box.BoxIT;
 import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.FolderOperations.BoxFolderItemsFields;
 import org.springframework.social.box.connect.BoxConnectionFactory;
@@ -38,7 +42,7 @@ import org.springframework.social.oauth2.AccessGrant;
  *
  * @author Ioannis Nikolaou
  */
-public class FolderOperationsIT {
+public class FolderOperationsIT extends BoxIT {
     static String accessToken;
     private static FolderOperations folderOperations;
 
@@ -71,6 +75,29 @@ public class FolderOperationsIT {
                 fail("test folder should have been deleted");
             }
         }
+    }
+
+    @Test
+    public void moveFolder() {
+        BoxFolderItems boxFolderItems;
+        String boxFolder1Id, boxFolder2Id;
+        boxFolder1Id = folderOperations.createFolder("api folder 1", "0", Collections.singletonList(BoxFolderFields.ID)).getId();
+        boxFolder2Id = folderOperations.createFolder("api folder 2", "0", Collections.singletonList(BoxFolderFields.ID)).getId();
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFolder1Id, boxFolderItems));
+        assertTrue(containsItem(boxFolder2Id, boxFolderItems));
+
+        folderOperations.moveFolder(boxFolder2Id, boxFolder1Id);
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFolder1Id, boxFolderItems));
+        assertFalse(containsItem(boxFolder2Id, boxFolderItems));
+
+        boxFolderItems = folderOperations.getFolderItems(boxFolder1Id);
+        assertTrue(containsItem(boxFolder2Id, boxFolderItems));
+
+        folderOperations.deleteFolder(boxFolder1Id, true);
     }
 
     private void listFolders(BoxFolderItems boxFolderItems) {

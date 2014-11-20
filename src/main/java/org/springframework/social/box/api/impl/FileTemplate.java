@@ -131,7 +131,30 @@ public class FileTemplate extends BoxOperations implements FileOperations {
     @Override
     public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields) {
         try {
-            return boxFileUploadOperation(mapper.writeValueAsString(new BoxNewItem(name, new BoxParentItem(parentId))), file, fields);
+            return boxFileUploadOperation(mapper.writeValueAsString(new BoxNewItem(name, parentId)), file, fields);
+        } catch (JsonProcessingException e) {
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FileOperations#getFileInformation(java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFile moveFile(String fileId, String newParentFolderId) {
+        return moveFile(fileId, newParentFolderId, null);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.social.box.api.FileOperations#getFileInformation(java.lang.String, java.util.List)
+     */
+    @Override
+    public BoxFile moveFile(String fileId, String newParentFolderId,
+            List<BoxFileFields> fields) {
+        try {
+            return boxOperation(HttpMethod.PUT, FILE_OPERATION + fileId, fields,
+                    mapper.writeValueAsString(new BoxNewItem(null, newParentFolderId)),
+                    BoxFile.class);
         } catch (JsonProcessingException e) {
             throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
         }

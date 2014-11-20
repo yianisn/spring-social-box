@@ -34,8 +34,9 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.social.box.AbstractBoxTest;
+import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.api.FileOperations.BoxFileFields;
+import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.box.domain.BoxFile;
 import org.springframework.social.box.domain.enums.BoxItemType;
@@ -45,7 +46,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
  *
  * @author Ioannis Nikolaou
  */
-public class FileOperationsTest extends AbstractBoxTest {
+public class FileOperationsTest extends BoxTest {
 
     BoxTemplate boxTemplate = new BoxTemplate("accessToken");
     MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(boxTemplate.getRestTemplate());
@@ -200,6 +201,30 @@ public class FileOperationsTest extends AbstractBoxTest {
         .andRespond(withNoContent());
 
         boxTemplate.fileOperations().deleteFile("123");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void moveFileBoxExampleData() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"}}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.fileOperations().moveFile("fileId", "folderId");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void moveFileSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId?fields=id"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"}}"))
+        .andExpect(method(PUT))
+        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.fileOperations().moveFile("fileId", "folderId", Arrays.asList(BoxFileFields.ID));
 
         mockRestServiceServer.verify();
     }
