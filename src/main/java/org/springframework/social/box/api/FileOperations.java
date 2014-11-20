@@ -73,22 +73,6 @@ public interface FileOperations {
      *
      * @param fileId
      *            The ID of the file to be updated
-     * @param newName
-     *            The new name of the file
-     * @param fields
-     *            The list of the fields of the file information data that will be
-     *            returned.
-     * @return The updated {@link BoxFile} is returned if no name collisions
-     *         occur.
-     */
-    public BoxFile updateFileName(String fileId, String newName, List<BoxFileFields> fields);
-
-    /**
-     * Used to update information about the file. To leave an attribute
-     * unchanged set it to null.
-     *
-     * @param fileId
-     *            The ID of the file to be updated
      * @param newDescription
      *            The description name of the file
      * @return The updated {@link BoxFile} is returned
@@ -101,41 +85,11 @@ public interface FileOperations {
      *
      * @param fileId
      *            The ID of the file to be updated
-     * @param newDescription
-     *            The description name of the file
-     * @param fields
-     *            The list of the fields of the file/file information data that will be
-     *            returned.
-     * @return The updated {@link BoxFile} is returned
-     */
-    public BoxFile updateFileDescription(String fileId, String newDescription, List<BoxFileFields> fields);
-
-    /**
-     * Used to update information about the file. To leave an attribute
-     * unchanged set it to null.
-     *
-     * @param fileId
-     *            The ID of the file to be updated
      * @param newTags
      *            The new tags of the file
      * @return The updated {@link BoxFile} is returned
      */
     public BoxFile updateFileTags(String fileId, List<String> newTags);
-
-    /**
-     * Used to update information about the file. To leave an attribute
-     * unchanged set it to null.
-     *
-     * @param fileId
-     *            The ID of the file to be updated
-     * @param newTags
-     *            The new tags of the file
-     * @param fields
-     *            The list of the fields of the file/file information data that will be
-     *            returned.
-     * @return The updated {@link BoxFile} is returned
-     */
-    public BoxFile updateFileTags(String fileId, List<String> newTags, List<BoxFileFields> fields);
 
     /**
      * Used to update information about the file. To leave an attribute

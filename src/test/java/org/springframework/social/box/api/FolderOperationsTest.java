@@ -141,18 +141,6 @@ public class FolderOperationsTest extends BoxTest {
     }
 
     @Test
-    public void updateFolderNameLimitResponse() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=id"))
-        .andExpect(content().string("{\"name\":\"new name\"}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.folderOperations().updateFolderName("123", "new name", Arrays.asList(BoxFolderFields.ID));
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
     public void updateFolderDescription() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
         .andExpect(content().string("{\"description\":\"new description\"}"))
@@ -160,18 +148,6 @@ public class FolderOperationsTest extends BoxTest {
         .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
 
         boxTemplate.folderOperations().updateFolderDescription("123", "new description");
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
-    public void updateFolderDescriptionLimitResponse() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=etag"))
-        .andExpect(content().string("{\"description\":\"new description\"}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.folderOperations().updateFolderDescription("123", "new description", Arrays.asList(BoxFolderFields.ETAG));
 
         mockRestServiceServer.verify();
     }
@@ -189,25 +165,13 @@ public class FolderOperationsTest extends BoxTest {
     }
 
     @Test
-    public void updateFolderTagsLimitResponse() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=content_modified_at"))
-        .andExpect(content().string("{\"tags\":[\"tag 1\"]}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.folderOperations().updateFolderTags("123", Arrays.asList("tag 1"), Arrays.asList(BoxFolderFields.CONTENT_MODIFIED_AT));
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
-    public void updateFolder() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123"))
+    public void updateFolderLimitResponse() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/123?fields=id"))
         .andExpect(content().string("{\"name\":\"new name\",\"description\":\"\"}"))
         .andExpect(method(PUT))
         .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
 
-        boxTemplate.folderOperations().updateFolder("123", "new name", "", null, null);
+        boxTemplate.folderOperations().updateFolder("123", "new name", "", null, Arrays.asList(BoxFolderFields.ID));
 
         mockRestServiceServer.verify();
     }

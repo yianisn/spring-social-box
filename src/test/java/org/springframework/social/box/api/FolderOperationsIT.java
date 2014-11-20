@@ -64,7 +64,7 @@ public class FolderOperationsIT extends BoxIT {
         boxFolder = folderOperations.createFolder("api folder", "0");
         assertEquals("api folder", boxFolder.getName());
 
-        boxFolder = folderOperations.updateFolderName(boxFolder.getId(), "new api folder name", Arrays.asList(BoxFolderFields.NAME));
+        boxFolder = folderOperations.updateFolderName(boxFolder.getId(), "new api folder name");
         assertEquals("new api folder name", boxFolder.getName());
 
         folderOperations.deleteFolder(boxFolder.getId(), false);

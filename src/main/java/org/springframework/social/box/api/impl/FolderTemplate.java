@@ -139,19 +139,6 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      * (non-Javadoc)
      *
      * @see
-     * org.springframework.social.box.api.FolderOperations#updateFolderName(
-     * java.lang.String, java.lang.String, java.util.List)
-     */
-    @Override
-    public BoxFolder updateFolderName(String folderId, String newName,
-            List<BoxFolderFields> fields) {
-        return updateFolder(folderId, newName, null, null, fields);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
      * org.springframework.social.box.api.FolderOperations#updateFolderDescription
      * (java.lang.String, java.lang.String)
      */
@@ -165,38 +152,12 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      * (non-Javadoc)
      *
      * @see
-     * org.springframework.social.box.api.FolderOperations#updateFolderDescription
-     * (java.lang.String, java.lang.String, java.util.List)
-     */
-    @Override
-    public BoxFolder updateFolderDescription(String folderId,
-            String newDescription, List<BoxFolderFields> fields) {
-        return updateFolder(folderId, null, newDescription, null, fields);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
      * org.springframework.social.box.api.FolderOperations#updateFolderTags(
      * java.lang.String, java.util.List)
      */
     @Override
     public BoxFolder updateFolderTags(String folderId, List<String> newTags) {
         return updateFolder(folderId, null, null, newTags, null);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.social.box.api.FolderOperations#updateFolderTags(
-     * java.lang.String, java.util.List, java.util.List)
-     */
-    @Override
-    public BoxFolder updateFolderTags(String folderId, List<String> newTags,
-            List<BoxFolderFields> fields) {
-        return updateFolder(folderId, null, null, newTags, fields);
     }
 
     /*

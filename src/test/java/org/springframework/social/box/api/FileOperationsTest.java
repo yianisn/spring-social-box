@@ -36,7 +36,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.box.BoxTest;
 import org.springframework.social.box.api.FileOperations.BoxFileFields;
-import org.springframework.social.box.api.FolderOperations.BoxFolderFields;
 import org.springframework.social.box.api.impl.BoxTemplate;
 import org.springframework.social.box.domain.BoxFile;
 import org.springframework.social.box.domain.enums.BoxItemType;
@@ -89,18 +88,6 @@ public class FileOperationsTest extends BoxTest {
     }
 
     @Test
-    public void updateFileNameLimitResponse() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123?fields=id"))
-        .andExpect(content().string("{\"name\":\"new name\"}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.fileOperations().updateFileName("123", "new name", Arrays.asList(BoxFileFields.ID));
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
     public void updateFileDescription() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123"))
         .andExpect(content().string("{\"description\":\"new description\"}"))
@@ -108,18 +95,6 @@ public class FileOperationsTest extends BoxTest {
         .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
 
         boxTemplate.fileOperations().updateFileDescription("123", "new description");
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
-    public void updateFileDescriptionLimitResponse() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123?fields=etag"))
-        .andExpect(content().string("{\"description\":\"new description\"}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.fileOperations().updateFileDescription("123", "new description", Arrays.asList(BoxFileFields.ETAG));
 
         mockRestServiceServer.verify();
     }
@@ -137,25 +112,13 @@ public class FileOperationsTest extends BoxTest {
     }
 
     @Test
-    public void updateFileTagsLimitResponse() {
+    public void updateFileLimitResponse() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123?fields=content_modified_at"))
-        .andExpect(content().string("{\"tags\":[\"tag 1\"]}"))
-        .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
-
-        boxTemplate.fileOperations().updateFileTags("123", Arrays.asList("tag 1"), Arrays.asList(BoxFileFields.CONTENT_MODIFIED_AT));
-
-        mockRestServiceServer.verify();
-    }
-
-    @Test
-    public void updateFile() {
-        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/123"))
         .andExpect(content().string("{\"name\":\"new name\",\"description\":\"\"}"))
         .andExpect(method(PUT))
         .andRespond(withSuccess(jsonResource("fileInformationBoxExample"), MediaType.APPLICATION_JSON));
 
-        boxTemplate.fileOperations().updateFile("123", "new name", "", null, null);
+        boxTemplate.fileOperations().updateFile("123", "new name", "", null, Arrays.asList(BoxFileFields.CONTENT_MODIFIED_AT));
 
         mockRestServiceServer.verify();
     }

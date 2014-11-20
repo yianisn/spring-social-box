@@ -66,14 +66,6 @@ public class FileTemplate extends BoxOperations implements FileOperations {
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FileOperations#updateFileName(java.lang.String, java.lang.String, java.util.List)
-     */
-    @Override
-    public BoxFile updateFileName(String fileId, String newName, List<BoxFileFields> fields) {
-        return updateFile(fileId, newName, null, null, fields);
-    }
-
-    /* (non-Javadoc)
      * @see org.springframework.social.box.api.FileOperations#updateFileDescription(java.lang.String, java.lang.String)
      */
     @Override
@@ -82,27 +74,11 @@ public class FileTemplate extends BoxOperations implements FileOperations {
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FileOperations#updateFileDescription(java.lang.String, java.lang.String, java.util.List)
-     */
-    @Override
-    public BoxFile updateFileDescription(String fileId, String newDescription, List<BoxFileFields> fields) {
-        return updateFile(fileId, null, newDescription, null, fields);
-    }
-
-    /* (non-Javadoc)
      * @see org.springframework.social.box.api.FileOperations#updateFileTags(java.lang.String, java.util.List)
      */
     @Override
     public BoxFile updateFileTags(String fileId, List<String> newTags) {
         return updateFile(fileId, null, null, newTags, null);
-    }
-
-    /* (non-Javadoc)
-     * @see org.springframework.social.box.api.FileOperations#updateFileTags(java.lang.String, java.util.List, java.util.List)
-     */
-    @Override
-    public BoxFile updateFileTags(String fileId, List<String> newTags, List<BoxFileFields> fields) {
-        return updateFile(fileId, null, null, newTags, fields);
     }
 
     /* (non-Javadoc)
