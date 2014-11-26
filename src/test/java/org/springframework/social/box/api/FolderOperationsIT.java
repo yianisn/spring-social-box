@@ -98,6 +98,7 @@ public class FolderOperationsIT extends BoxIT {
         assertTrue(containsItem(copyOfBoxFolder2Id, boxFolderItems));
 
         folderOperations.deleteFolder(boxFolder1Id, true);
+        folderOperations.deleteFolder(boxFolder2Id, true);
     }
 
     @Test

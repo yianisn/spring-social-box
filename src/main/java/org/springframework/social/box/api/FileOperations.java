@@ -146,6 +146,47 @@ public interface FileOperations {
      */
     public BoxFile uploadFile(String name, String parentId, Resource file, List<BoxFileFields> fields);
 
+
+    /**
+     * Used to copy a file.
+     *
+     * @param fileId
+     *            The id of the file to be moved
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @return The updated {@link BoxFile} object
+     */
+    public BoxFile copyFile(String fileId, String newParentFolderId);
+
+    /**
+     * Used to move a file.
+     *
+     * @param fileId
+     *            The id of the file to be moved
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @param newName
+     *            The name of the new file
+      * @return The updated {@link BoxFile} object
+     */
+    public BoxFile copyFile(String fileId, String newParentFolderId, String newName);
+
+    /**
+     * Used to move a file.
+     *
+     * @param fileId
+     *            The id of the file to be moved
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @param newName
+     *            The name of the new file
+     * @param fields
+     *            The list of the fields of the {@link BoxFile} object that will be
+     *            returned.
+     * @return The updated {@link BoxFile} object
+     */
+    public BoxFile copyFile(String fileId, String newParentFolderId, String newName, List<BoxFileFields> fields);
+
     /**
      * Used to move a file.
      *

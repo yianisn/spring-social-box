@@ -173,6 +173,42 @@ public class FileOperationsTest extends BoxTest {
     }
 
     @Test
+    public void copyFileBoxExampleData() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId/copy"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"}}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("copyFileBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.fileOperations().copyFile("fileId", "folderId");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void copyFileNewName() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId/copy"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"},\"name\":\"new Name\"}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("copyFileBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.fileOperations().copyFile("fileId", "folderId", "new Name");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void copyFileSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId/copy?fields=id"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"},\"name\":\"new Name\"}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("copyFileBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.fileOperations().copyFile("fileId", "folderId", "new Name", Arrays.asList(BoxFileFields.ID));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
     public void moveFileBoxExampleData() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/files/fileId"))
         .andExpect(content().string("{\"parent\":{\"id\":\"folderId\"}}"))

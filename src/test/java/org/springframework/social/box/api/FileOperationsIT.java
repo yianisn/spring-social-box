@@ -93,6 +93,29 @@ public class FileOperationsIT extends BoxIT {
     }
 
     @Test
+    public void copyFile() {
+        BoxFolderItems boxFolderItems;
+        String boxFolderId, boxFileId;
+        boxFolderId = folderOperations.createFolder("api folder", "0", Collections.singletonList(BoxFolderFields.ID)).getId();
+        boxFileId = fileOperations.uploadFile("box_cyan.png", "0", new ClassPathResource("box_cyan.png"), Arrays.asList(BoxFileFields.ID)).getId();
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFileId, boxFolderItems));
+
+        String newBoxFileId = fileOperations.copyFile(boxFileId, boxFolderId, "new file name", Arrays.asList(BoxFileFields.ID)).getId();
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFileId, boxFolderItems));
+
+        boxFolderItems = folderOperations.getFolderItems(boxFolderId);
+        assertTrue(containsItem(newBoxFileId, boxFolderItems));
+        assertFalse(containsItem(boxFileId, boxFolderItems));
+
+        folderOperations.deleteFolder(boxFolderId, true);
+        fileOperations.deleteFile(boxFileId);
+    }
+
+    @Test
     public void moveFile() {
         BoxFolderItems boxFolderItems;
         String boxFolderId, boxFileId;
