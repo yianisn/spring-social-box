@@ -220,7 +220,7 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
             List<BoxFolderFields> fields) {
         try {
             return boxOperation(HttpMethod.PUT, FOLDER_OPERATION + folderId, fields,
-                    mapper.writeValueAsString(new BoxNewItem(null, newParentFolderId)),
+                    mapper.writeValueAsString(new BoxParentItem(newParentFolderId)),
                     BoxFolder.class);
         } catch (JsonProcessingException e) {
             throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);

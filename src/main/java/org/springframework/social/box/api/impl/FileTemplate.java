@@ -129,7 +129,7 @@ public class FileTemplate extends BoxOperations implements FileOperations {
             List<BoxFileFields> fields) {
         try {
             return boxOperation(HttpMethod.PUT, FILE_OPERATION + fileId, fields,
-                    mapper.writeValueAsString(new BoxNewItem(null, newParentFolderId)),
+                    mapper.writeValueAsString(new BoxParentItem(newParentFolderId)),
                     BoxFile.class);
         } catch (JsonProcessingException e) {
             throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);

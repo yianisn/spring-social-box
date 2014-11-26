@@ -114,25 +114,31 @@ public class BoxOperations {
         }
     }
 
-    protected class BoxParentItem {
+    protected class BoxIdentifiableItem {
         @JsonProperty("id")
         String id;
 
-        public BoxParentItem(String id) {
+        public BoxIdentifiableItem(String id) {
             this.id = id;
         }
     }
 
-    @JsonInclude(Include.NON_NULL)
-    protected class BoxNewItem {
+    protected class BoxParentItem {
+        @JsonProperty("parent")
+        BoxIdentifiableItem parent;
+
+        public BoxParentItem(String parentId) {
+            this.parent = new BoxIdentifiableItem(parentId);
+        }
+    }
+
+    protected class BoxNewItem extends BoxParentItem {
         @JsonProperty("name")
         String name;
-        @JsonProperty("parent")
-        BoxParentItem parent;
 
         public BoxNewItem(String name, String parentId) {
+            super(parentId);
             this.name = name;
-            this.parent = new BoxParentItem(parentId);
         }
     }
 

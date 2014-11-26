@@ -128,8 +128,10 @@ public class FileOperationsTest extends BoxTest {
     public void uploadFile() {
         mockRestServiceServer.expect(requestTo("https://upload.box.com/api/2.0/files/content"))
         .andExpect(header("Content-Type", containsString("multipart/form-data")))
-        .andExpect(content().string(containsString("{\"name\":\"filename\","
-                                                + "\"parent\":{\"id\":\"123\"}}")))
+        .andExpect(content().string(containsString("{"
+                                                + "\"parent\":{\"id\":\"123\"},"
+                                                + "\"name\":\"filename\""
+                                                + "}")))
         .andExpect(method(POST))
         .andRespond(withSuccess(jsonResource("uploadFileBoxExample"), MediaType.APPLICATION_JSON));
 
@@ -145,8 +147,10 @@ public class FileOperationsTest extends BoxTest {
     public void uploadFileLimitResponse() {
         mockRestServiceServer.expect(requestTo("https://upload.box.com/api/2.0/files/content?fields=id"))
         .andExpect(header("Content-Type", containsString("multipart/form-data")))
-        .andExpect(content().string(containsString("{\"name\":\"filename\","
-                                                + "\"parent\":{\"id\":\"123\"}}")))
+        .andExpect(content().string(containsString("{"
+                                                 + "\"parent\":{\"id\":\"123\"},"
+                                                 + "\"name\":\"filename\""
+                                                 + "}")))
         .andExpect(method(POST))
         .andRespond(withSuccess(jsonResource("uploadFileBoxExample"), MediaType.APPLICATION_JSON));
 

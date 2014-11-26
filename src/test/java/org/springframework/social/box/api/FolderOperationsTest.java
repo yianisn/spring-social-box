@@ -107,7 +107,7 @@ public class FolderOperationsTest extends BoxTest {
     @Test
     public void createFolderBoxExampleData() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders"))
-        .andExpect(content().string("{\"name\":\"A folder\",\"parent\":{\"id\":\"123\"}}"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"123\"},\"name\":\"A folder\"}"))
         .andExpect(method(POST))
         .andRespond(withSuccess(jsonResource("createFolderBoxExample"), MediaType.APPLICATION_JSON));
 
@@ -119,7 +119,7 @@ public class FolderOperationsTest extends BoxTest {
     @Test
     public void createFolderSpecificFields() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders?fields=path_collection"))
-        .andExpect(content().string("{\"name\":\"A folder\",\"parent\":{\"id\":\"123\"}}"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"123\"},\"name\":\"A folder\"}"))
         .andExpect(method(POST))
         .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
 
