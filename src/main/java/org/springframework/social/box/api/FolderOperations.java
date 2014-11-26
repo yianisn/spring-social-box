@@ -183,6 +183,47 @@ public interface FolderOperations {
      */
     public BoxFolder updateFolder(String folderId, String newName, String newDescription, List<String> newTags, List<BoxFolderFields> fields);
 
+
+    /**
+     * Used to copy a folder.
+     *
+     * @param folderId
+     *            The id of the folder to be copied
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @return The updated {@link BoxFolder} object
+     */
+    public BoxFolder copyFolder(String folderId, String newParentFolderId);
+
+    /**
+     * Used to copy a folder.
+     *
+     * @param folderId
+     *            The id of the folder to be copied
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @param newName
+     *            The name of the new folder
+     * @return The updated {@link BoxFolder} object
+     */
+    public BoxFolder copyFolder(String folderId, String newParentFolderId, String newName);
+
+    /**
+     * Used to copy a folder and return only a subset of the new folder object information
+     *
+     * @param folderId
+     *            The id of the folder to be copied
+     * @param newParentFolderId
+     *            The id of the target folder
+     * @param newName
+     *            The name of the new folder
+     * @param fields
+     *            The list of the fields of the {@link BoxFolder} object that will be
+     *            returned.
+     * @return The updated {@link BoxFolder} object
+     */
+    public BoxFolder copyFolder(String folderId, String newParentFolderId, String newName, List<BoxFolderFields> fields);
+
     /**
      * Used to move a folder.
      *

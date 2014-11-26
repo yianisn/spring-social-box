@@ -204,6 +204,56 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
      * (java.lang.String)
      */
     @Override
+    public BoxFolder copyFolder(String folderId, String newParentFolderId) {
+        return copyFolder(folderId, newParentFolderId, null, null);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
+     */
+    @Override
+    public BoxFolder copyFolder(String folderId, String newParentFolderId, String newName) {
+        return copyFolder(folderId, newParentFolderId, newName, null);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
+     */
+    @Override
+    public BoxFolder copyFolder(String folderId, String newParentFolderId, String newName, List<BoxFolderFields> fields) {
+        try {
+            if (newName == null) {
+                return boxOperation(HttpMethod.POST, FOLDER_OPERATION + folderId + "/copy", fields,
+                        mapper.writeValueAsString(new BoxParentItem(newParentFolderId)),
+                        BoxFolder.class);
+            } else {
+                return boxOperation(HttpMethod.POST, FOLDER_OPERATION + folderId + "/copy", fields,
+                        mapper.writeValueAsString(new BoxNewItem(newName, newParentFolderId)),
+                        BoxFolder.class);
+            }
+
+        } catch (JsonProcessingException e) {
+            throw new UncategorizedApiException(BOX_PROVIDER_NAME, "spring-social-box internal error", e);
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.springframework.social.box.api.FolderOperations#getFolderInformation
+     * (java.lang.String)
+     */
+    @Override
     public BoxFolder moveFolder(String folderId, String newParentFolderId) {
         return moveFolder(folderId, newParentFolderId, null);
     }
@@ -243,5 +293,4 @@ public class FolderTemplate extends BoxOperations implements FolderOperations {
             this.tags = tags;
         }
     }
-
 }

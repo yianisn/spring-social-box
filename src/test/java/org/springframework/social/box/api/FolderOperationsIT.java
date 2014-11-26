@@ -78,6 +78,29 @@ public class FolderOperationsIT extends BoxIT {
     }
 
     @Test
+    public void copyFolder() {
+        BoxFolderItems boxFolderItems;
+        String boxFolder1Id, boxFolder2Id;
+        boxFolder1Id = folderOperations.createFolder("api folder 1", "0", Collections.singletonList(BoxFolderFields.ID)).getId();
+        boxFolder2Id = folderOperations.createFolder("api folder 2", "0", Collections.singletonList(BoxFolderFields.ID)).getId();
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFolder1Id, boxFolderItems));
+        assertTrue(containsItem(boxFolder2Id, boxFolderItems));
+
+        String copyOfBoxFolder2Id = folderOperations.copyFolder(boxFolder2Id, boxFolder1Id, "copy of folder 2", Collections.singletonList(BoxFolderFields.ID)).getId();
+
+        boxFolderItems = folderOperations.getFolderItems("0");
+        assertTrue(containsItem(boxFolder1Id, boxFolderItems));
+        assertTrue(containsItem(boxFolder2Id, boxFolderItems));
+
+        boxFolderItems = folderOperations.getFolderItems(boxFolder1Id);
+        assertTrue(containsItem(copyOfBoxFolder2Id, boxFolderItems));
+
+        folderOperations.deleteFolder(boxFolder1Id, true);
+    }
+
+    @Test
     public void moveFolder() {
         BoxFolderItems boxFolderItems;
         String boxFolder1Id, boxFolder2Id;

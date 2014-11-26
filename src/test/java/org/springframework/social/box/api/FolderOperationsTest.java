@@ -199,6 +199,42 @@ public class FolderOperationsTest extends BoxTest {
     }
 
     @Test
+    public void copyFolderBoxExampleData() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from/copy"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"to\"}}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("copyFolderBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().copyFolder("from", "to");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void copyFolderNewName() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from/copy"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"to\"},\"name\":\"new Name\"}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("copyFolderBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().copyFolder("from", "to", "new Name");
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void copyFolderSpecificFields() {
+        mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from/copy?fields=id"))
+        .andExpect(content().string("{\"parent\":{\"id\":\"to\"},\"name\":\"new Name\"}"))
+        .andExpect(method(POST))
+        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+
+        boxTemplate.folderOperations().copyFolder("from", "to", "new Name", Arrays.asList(BoxFolderFields.ID));
+
+        mockRestServiceServer.verify();
+    }
+
+    @Test
     public void moveFolderBoxExampleData() {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from"))
         .andExpect(content().string("{\"parent\":{\"id\":\"to\"}}"))
@@ -215,7 +251,7 @@ public class FolderOperationsTest extends BoxTest {
         mockRestServiceServer.expect(requestTo("https://api.box.com/2.0/folders/from?fields=id"))
         .andExpect(content().string("{\"parent\":{\"id\":\"to\"}}"))
         .andExpect(method(PUT))
-        .andRespond(withSuccess(jsonResource("folderItemsBoxExample"), MediaType.APPLICATION_JSON));
+        .andRespond(withSuccess(jsonResource("createFolderBoxExample"), MediaType.APPLICATION_JSON));
 
         boxTemplate.folderOperations().moveFolder("from", "to", Arrays.asList(BoxFolderFields.ID));
 
